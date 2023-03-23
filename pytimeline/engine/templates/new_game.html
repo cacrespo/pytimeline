@@ -1,0 +1,6 @@
+<h1> Create a new game </h1>
+<form action="{% url 'engine:new_game' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Create game">
+</form>

@@ -1,7 +1,236 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<style>
+  .game-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    display: grid;
+    place-content: center;
+  }
 
-{% block content %}
-<h1>Game Details for: {{player.name}}</h1>
+  .game-container .card {
+    font-size: 14px;
+    width: 190px;
+    height: 200px;
+    padding: 8px;
+    background: url("/static/img/fff.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+  }
+
+  .timeline .deck {
+    display: grid;
+    place-content: center;
+    font-size: 40px;
+    color: white;
+    text-align: center;
+  }
+
+  .timeline .deck small {
+    font-size: 11px;
+  }
+
+  .timeline .deck.card {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .game-container .player-hand {
+    position: absolute;
+    bottom: -90px;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+  }
+
+  .game-container .player-hand .card {
+    transition: transform 0.1s linear;
+  }
+
+  .game-container .player-hand .card:hover {
+    transform: translateY(-90px);
+  }
+  .card.over {
+    border: 3px dotted #666;
+  }
+
+  [draggable] {
+    user-select: none;
+  }
+
+  .card-wrapper {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .before-area, .after-area {
+    display: grid;
+    place-content: center;
+  }
+
+  .before-area span, .after-area span {
+    display: none;
+    transform: rotate(90deg)
+  }
+
+  .before-area.active {
+    border-radius: 8px 0px 0px 8px;
+  }
+
+  .before-area.active span {
+    display: block;
+  }
+  
+  .after-area.active {
+      border-radius: 0px 8px 8px 0px;
+    }
+
+    .after-area.active span {
+        display: block;
+    }
+    
+  .before-area.active, .after-area.active {
+    width: 40px;
+    background-color: rgba(0,0,0,.4);
+  }
+</style>
+<div class="game-container">
+  <div class="timeline">
+    <div class="deck card">
+      <span>{{ object.deck.count }}</span>
+      <small>Cards remaining</small>
+    </div>
+    {% for c in object.timeline.cards.all %}
+        <div class="card-wrapper">
+            <div class="before-area">
+                <span>BEFORE</span>
+            </div>
+            {% include 'card.html' with card=c %}
+            <div class="after-area">
+                <span>AFTER</span>
+            </div>
+        </div>
+    {%endfor%}
+  </div>
+  <div class="player-hand">
+    {% for c in player.cards.all %}
+        {% include 'card.html' with card=c %} 
+    {% endfor %}
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", (event) => {
+    var dragSrcEl = null;
+    let beforeareas = document.querySelectorAll(".before-area");
+    let afterareas = document.querySelectorAll(".after-area");
+
+    function handleDragStart(e) {
+      this.style.opacity = "0.4";
+
+      dragSrcEl = this;
+      enableDropareas()
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/html", this.innerHTML);
+    }
+
+    function handleDragOver(e) {
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+
+      e.dataTransfer.dropEffect = "move";
+
+      return false;
+    }
+
+    function handleDragEnter(e) {
+      this.classList.add("over");
+    }
+
+    function handleDragLeave(e) {
+      this.classList.remove("over");
+
+    }
+
+    function handleDrop(e) {
+      if (e.stopPropagation) {
+        e.stopPropagation(); // stops the browser from redirecting.
+      }
+
+      if (dragSrcEl != this) {
+        dragSrcEl.innerHTML = this.innerHTML;
+        this.innerHTML = e.dataTransfer.getData("text/html");
+      }
+
+      return false;
+    }
+
+    function handleDragEnd(e) {
+      this.style.opacity = "1";
+      disableDropareas()
+      items.forEach(function (item) {
+        item.classList.remove("over");
+      });
+    }
+
+    for (area of [...beforeareas, ...afterareas]) {
+      area.addEventListener("dragover", dropareaOver);
+    }
+
+    function dropareaOver(e) {
+        if (e.preventDefault) e.preventDefault(); 
+        e.target.classList.add("drop-enabled");
+
+        e.dataTransfer.dropEffect = "drop";
+
+        return false;
+        return true
+    }
+
+    function enableDropareas() {
+        for (const area of [...beforeareas, ...afterareas]) {
+            area.classList.add('active')
+        }
+    }
+
+    function disableDropareas() {
+        for (const area of [...beforeareas, ...afterareas]) {
+            area.classList.remove('active')
+        }
+    }
+
+    for (const area of beforeareas) {
+        area.addEventListener('drop', dropBefore)
+    }
+
+    function dropBefore() {
+        console.log('Before')
+    }
+
+    let items = document.querySelectorAll(".container .card");
+    items.forEach(function (item) {
+      item.addEventListener("dragstart", handleDragStart, false);
+      item.addEventListener("dragenter", handleDragEnter, false);
+      item.addEventListener("dragover", handleDragOver, false);
+      item.addEventListener("dragleave", handleDragLeave, false);
+      item.addEventListener("drop", handleDrop, false);
+      item.addEventListener("dragend", handleDragEnd, false);
+    });
+  });
+</script>
+{% endblock %}
+<!-- <h1>Game Details for: {{player.name}}</h1>
 <small>Currently playing: {{ object.current_player.name }}</small>
 
 <h2>Deck: {{ object.deck.count }} cards</h2>
@@ -52,5 +281,4 @@
     </ol>
 
     <input type="submit" value="Play card">
-</form>
-{% endblock %}
+</form> -->

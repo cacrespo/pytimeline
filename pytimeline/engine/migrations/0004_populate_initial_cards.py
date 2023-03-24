@@ -22,7 +22,7 @@ def delete_all_cards(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('engine', '0002_card'),
+        ('engine', '0003_card'),
     ]
 
     operations = [

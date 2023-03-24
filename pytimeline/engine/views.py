@@ -51,5 +51,5 @@ class UserGameDetails(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["player"] = self.object.players.first()
+        context["player"] = self.object.players.get(name=self.kwargs['player_name'])
         return context

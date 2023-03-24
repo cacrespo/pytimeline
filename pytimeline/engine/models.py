@@ -37,6 +37,11 @@ class Game(models.Model):
     def get_absolute_url(self):
         return reverse('engine:game_details', kwargs={'pk': self.pk})
 
+    @property
+    def current_player(self):
+        print("...............", self.turn, self.n_players)
+        player_idx = self.turn % self.n_players
+        return self.players.order_by("id")[player_idx]
 
     def register_player(self, name):
         """Agrega un usuario al state y saca cartas del deck para darle."""
@@ -64,6 +69,7 @@ class Game(models.Model):
         self.initialize_deck()
         for u in users:
             self.register_player(u)
+        self.n_players = len(users)
         self.initialize_timeline()
 
 class Card(models.Model):

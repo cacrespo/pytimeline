@@ -1,10 +1,13 @@
 from django.http import HttpResponse
 from engine.forms import NewGameForm, PlayCardForm
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView,BaseUpdateView
-
-
+from django.views.generic.edit import CreateView, ModelFormMixin, BaseUpdateView
+from django.urls import reverse
 from engine.models import Game
+
+
+MAX_YEAR = 9999
+DIVIDER = "/"
 
 def index(request):
     return HttpResponse("Bienvenido al juegazo. acá el listado de juegos.")
@@ -45,7 +48,60 @@ class GameDetails(DetailView):
     model = Game
 
 
-class UserGameDetails(UpdateView):
+from collections import namedtuple
+
+
+TimelineElement = namedtuple("TimelineElement", ("is_marker", "value"))
+
+def get_first_position_marker(card):
+    """"""
+    return f"{-MAX_YEAR}{DIVIDER}{card.date.year}"
+
+
+def get_position_marker(prev, post):
+    """"""
+    return f"{prev.date.year}{DIVIDER}{post.date.year}"
+
+
+def get_last_position_marker(card):
+    """"""
+    return f"{card.date.year}{DIVIDER}{MAX_YEAR}"
+
+
+def get_timeline_context(cards):
+        first_card = cards[0]
+        # Arranco con un marker y la primer carta
+        timeline_context = [
+            TimelineElement(
+                True, get_first_position_marker(first_card),
+            ),
+            TimelineElement(
+                False, first_card
+            )  
+        ]
+        for i in range(1, len(cards)):
+            # Si hay más cartas, meto un marker y la carta
+            prev = cards[i-1]
+            post_card = cards[i]
+            marker = get_position_marker(prev, post_card)
+            timeline_context += [
+                TimelineElement(
+                    True, marker
+                ),
+                TimelineElement(
+                    False, post_card
+                )
+            ]
+        # Al final meto el último marker
+        timeline_context.append(
+            TimelineElement(
+                True, get_last_position_marker(cards[-1])
+            )
+        )
+        return timeline_context
+
+
+class UserGameDetails(DetailView, ModelFormMixin):
     model = Game
     form_class = PlayCardForm
     template_name = "engine/user_game_details.html"
@@ -53,6 +109,9 @@ class UserGameDetails(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["player"] = self.object.players.get(name=self.kwargs['player_name'])
+        cards = list(self.object.timeline.cards.all())
+        context["timeline_context"] = get_timeline_context(cards)
+
         return context
 
 class PlayGame(BaseUpdateView):
@@ -61,7 +120,16 @@ class PlayGame(BaseUpdateView):
 
     def form_valid(self,form):
         card_id = self.request.POST['selection']
-        before_year = self.request.POST['before_year']
-        after_year = self.request.POST['after_year']
-        self.object.play_a_card(card_id,before_year,after_year)
+        position = self.request.POST['position']
+        before_year, after_year = map(int, position.split(DIVIDER))
+        self.object.play_a_card(card_id, before_year, after_year)
         return super().form_valid(form)
+    
+    def get_success_url(self):
+        # import ipdb; ipdb.set_trace()
+        return reverse(
+            "engine:user_game_details", kwargs={
+                "pk": self.object.pk, 
+                "player_name": self.request.POST.get("player_name")
+            }
+        )

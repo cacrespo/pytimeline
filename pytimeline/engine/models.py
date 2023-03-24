@@ -10,6 +10,10 @@ DEFAULT_DECK_SIZE = 60
 DEFAULT_HAND_SIZE = 5
 
 
+class CardNotInUsersHand(Exception):
+    pass
+
+
 class Player(models.Model):
     name = models.CharField(max_length=64)
     cards = models.ManyToManyField("Card")
@@ -18,6 +22,8 @@ class Player(models.Model):
         related_name="players",
         on_delete=models.CASCADE,
     ) # Un jugador tiene una sola partida.
+
+    # TODO: Agregar restricción de unique_together(name, game)
 
     def has_card(self,card):
         return self.cards.filter(pk=card.pk).exists()
@@ -37,6 +43,7 @@ class Game(models.Model):
         on_delete=models.CASCADE,
         null=True,
     )
+    # TODO: mazo de descarte. Para ir guardando las mal jugadas.
 
     def get_absolute_url(self):
         return reverse('engine:game_details', kwargs={'pk': self.pk})
@@ -75,20 +82,27 @@ class Game(models.Model):
         self.n_players = len(users)
         self.initialize_timeline()
 
-    def play_a_card(self,card_id,prevYear,postYear):
-        card_to_play = Card.objects.get(pk=card_id)
-        current_player = self.current_player
-        if(current_player.has_card(card_to_play)):
-            if(card_to_play.is_between_years(prevYear,postYear)):
-                self.timeline.cards.add(card_to_play)
-            else:
-                another_card=self.deck.first()
-                current_player.cards.add(another_card)
-                self.deck.remove(another_card)
-            current_player.cards.remove(card_to_play) # Sin importar se borra
-            self.turn = self.turn + 1
+    def _play_existing_card(self, card_to_play, prevYear, postYear):
+        if(card_to_play.is_between_years(prevYear, postYear)):
+            self.timeline.cards.add(card_to_play)
+            print(f"····\tJugó bien!")
         else:
-            raise Exception("No es una carta de jugador en curso")
+            another_card=self.deck.first()
+            self.current_player.cards.add(another_card)
+            self.deck.remove(another_card)
+            print(f"····\tJugó mal :-(")
+        self.current_player.cards.remove(card_to_play) # Sin importar se borra
+        self.turn = self.turn + 1
+
+    def play_a_card(self, card_id, prevYear, postYear):
+        card_to_play = Card.objects.get(pk=card_id)
+        # TODO:  validar que esos años están en las cartas del Timeline
+        if self.current_player.has_card(card_to_play):
+            print(f"···· Jugando {self.current_player.name}: quiere jugar {card_to_play.date.year} entre {prevYear} y {postYear}")
+            self._play_existing_card(card_to_play, prevYear, postYear)   
+        else:
+            print("···· ERROR: intentando jugar carta que no tiene el jugador actual")
+            raise CardNotInUsersHand(f"El jugador {self.current_player.name} no tiene la carta {card_id}")
 
 
 class Card(models.Model):

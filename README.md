@@ -47,4 +47,4 @@ pip install django_extensions  # https://python-poetry.org/docs/basic-usage/
 * Cargar más cards
 * Categorías en las cards (poder configurar mazos con múltiples categorías)
 * Frotends buena onda
-* 
+* Lógica del juego (motor) @cuococarlos, et al

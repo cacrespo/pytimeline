@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from engine.forms import NewGameForm, PlayCardForm
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, ModelFormMixin
+from django.views.generic.edit import CreateView, UpdateView,BaseUpdateView
 
 
 from engine.models import Game
@@ -45,7 +45,7 @@ class GameDetails(DetailView):
     model = Game
 
 
-class UserGameDetails(DetailView, ModelFormMixin):
+class UserGameDetails(UpdateView):
     model = Game
     form_class = PlayCardForm
     template_name = "engine/user_game_details.html"
@@ -54,3 +54,15 @@ class UserGameDetails(DetailView, ModelFormMixin):
         context = super().get_context_data(**kwargs)
         context["player"] = self.object.players.get(name=self.kwargs['player_name'])
         return context
+
+class PlayGame(BaseUpdateView):
+    model = Game
+    form_class = PlayCardForm
+
+    def form_valid(self,form):
+        import ipdb; ipdb.set_trace()
+        card_id = self.request.POST['selection']
+        before_year = self.request.POST['before_year']
+        after_year = self.request.POST['after_year']
+        self.object.play_a_card(card_id,before_year,after_year)
+        return super().form_valid(form)

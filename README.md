@@ -8,10 +8,14 @@ pip install Django==4.1
 pip install django_extensions  # https://python-poetry.org/docs/basic-usage/
 
 ```
+## Run 
+
+python pytimeline/manage.py  runserver  localhost:8003(o puerto que prefieras)
+
 
 ## Vistas con sus templates
 
-* / : Listado de Games
+* / : Listado de Games **WIP**
 * /start : 
     * GET : Form de carga de usuarios y parámetros del juego
     * POST : Inicializa el juego. redirect a Start-success

@@ -41,7 +41,6 @@ class Game(models.Model):
 
     @property
     def current_player(self):
-        print("...............", self.turn, self.n_players)
         player_idx = self.turn % self.n_players
         return self.players.order_by("id")[player_idx]
 

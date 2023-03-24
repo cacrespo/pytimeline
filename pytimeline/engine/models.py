@@ -31,3 +31,8 @@ class Game(models.Model):
         #    self.register_user(u)
         #self.timeline.add(self.first_from_deck()))
         print("······· Start " + str(users))
+
+class Card(models.Model):
+    text = models.CharField(max_length=2048)
+    date = models.DateField()
+

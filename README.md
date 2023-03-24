@@ -4,7 +4,8 @@ Juego similar a Timeline con efemérides de Argentina
 # Dev startup
 
 ```bash
-pip install poetry  # https://python-poetry.org/docs/basic-usage/
+pip install Django==4.1
+pip install django_extensions  # https://python-poetry.org/docs/basic-usage/
 
 ```
 

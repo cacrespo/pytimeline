@@ -20,7 +20,7 @@ class Player(models.Model):
 class Game(models.Model):
     deck_size = models.PositiveIntegerField(default=DEFAULT_DECK_SIZE)
     initial_hand_size = models.PositiveIntegerField(default=DEFAULT_HAND_SIZE)
-    # deck = many2many(Card)
+    deck = models.ManyToManyField("Card")
     current = models.PositiveIntegerField(default=0)
 
     def get_absolute_url(self):
@@ -33,9 +33,15 @@ class Game(models.Model):
         #players_cards = self.extract_cards_from_deck()
         #p.add(players_cards)
 
+    def initialize_deck(self):
+        cards = Card.objects.order_by("?")[:self.deck_size]
+        [self.deck.add(c) for c in cards]
+
+
     def start(self, users):
         """Inicialize a new game for the given users."""
-        #self.deck.add(inic ialize_deck())
+        
+        self.initialize_deck()
         for u in users:
             self.register_user(u)
         #self.timeline.add(self.first_from_deck()))

@@ -1,3 +1,6 @@
+from datetime import date
+
+
 from django.db import models
 
 from django.urls import reverse
@@ -19,7 +22,6 @@ class Player(models.Model):
 
 class Timeline(models.Model):
     cards = models.ManyToManyField("Card")
-    
 
 class Game(models.Model):
     deck_size = models.PositiveIntegerField(default=DEFAULT_DECK_SIZE)
@@ -28,7 +30,7 @@ class Game(models.Model):
     turn = models.PositiveIntegerField(default=0)
     n_players = models.PositiveSmallIntegerField(default=0)
     timeline = models.OneToOneField(
-        Timeline, 
+        Timeline,
         related_name="game",
         on_delete=models.CASCADE,
         null=True,
@@ -75,4 +77,11 @@ class Game(models.Model):
 class Card(models.Model):
     text = models.CharField(max_length=2048)
     date = models.DateField()
+
+    def is_between_years(self, prevYear, postYear):
+        """Chequea si la carta se encuentra en el rango de fechas elegido."""
+
+        # TODO Recibir y comparar fechas
+        # return self.date >= date(prevYear, 1, 1) and self.date <= Datetime(postYear, 1, 1)
+        return self.date.year >= prevYear and self.date.year <= postYear
 

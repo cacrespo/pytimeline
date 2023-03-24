@@ -30,6 +30,7 @@ class Game(models.Model):
         Timeline, 
         related_name="game",
         on_delete=models.CASCADE,
+        null=True,
     )
 
     def get_absolute_url(self):
@@ -44,13 +45,15 @@ class Game(models.Model):
         p.cards.set(cards_selected)
         self.deck.remove(*cards_selected)
 
-
     def initialize_deck(self):
         cards = Card.objects.order_by("?")[:self.deck_size]
         self.deck.set(cards)
 
     def initialize_timeline(self):
         first_card = self.deck.first()
+        t = Timeline.objects.create(game=self)
+        self.timeline = t
+        self.save()
         self.timeline.cards.add(first_card)
         self.deck.remove(first_card)
 
@@ -59,7 +62,7 @@ class Game(models.Model):
 
         self.initialize_deck()
         for u in users:
-            self.register_user(u)
+            self.register_player(u)
         self.initialize_timeline()
 
 class Card(models.Model):

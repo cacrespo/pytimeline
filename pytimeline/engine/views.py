@@ -32,3 +32,8 @@ class NewGame(CreateView):
 
 class GameDetails(DetailView):
     model = Game
+
+
+class UserGameDetails(DetailView):
+    model = Game
+    template_name = "engine/user_game_details.html"

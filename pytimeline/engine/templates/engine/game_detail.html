@@ -4,3 +4,28 @@
         <li>{{ p.name }}</li>
     {% endfor %}
 </ol>
+
+Cards in deck: {{ object.deck.count }}
+
+Timeline: {{ object.timeline.cards.count }} cards
+<ol>
+    {% for c in object.timeline.cards.all %}
+        <li>{{ c.date }} - {{ c.text }}</li>
+    {% endfor %}
+</ol>
+
+<ol>
+    {% for p in object.players.all %}
+        <li>
+            {{ p.name }} cards: {{ p.cards.count }} (<a href="{% url 'engine:user_game_details' object.pk p.name %}">link</a>)
+
+            <ol>
+                {% for c in p.cards.all %}
+                    <li>{{ c.date }} - {{ c.text }}</li>
+                {% endfor %}
+            </ol>            
+
+        </li>
+    {% endfor %}
+</ol>
+

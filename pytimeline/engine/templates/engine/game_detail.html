@@ -1,1 +1,6 @@
 <h1>Game Details: {{ object.pk }}</h1>
+<ol>
+    {% for p in object.players.all %}
+        <li>{{ p.name }}</li>
+    {% endfor %}
+</ol>

@@ -1,8 +1,10 @@
-<div class="col">
+{% load static %}
+
+<div class="col card-column" draggable="true">
     <div class="card">
-        <img src="https://dummyimage.com/150x200/000/fff" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">As de Picas</h5>
+        <img src="{% static 'img/fff.png' %}" class="card-img-top" alt="...">        
+        <div class="card-img-overlay">
+            <h5 class="card-title">{{ text_card | default:"NO CART TEXT"}}</h5>
             <p class="card-text">El As de Picas es la carta más alta en el juego de poker.</p>
         </div>
     </div>

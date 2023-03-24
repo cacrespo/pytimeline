@@ -13,7 +13,9 @@ class NewGameForm(forms.ModelForm):
             'n_players': forms.HiddenInput(),
         }
 
-
+class MyChoiceField(forms.ChoiceField):
+    def validate(self,value):
+        pass
 
 class PlayCardForm(forms.ModelForm):
     class Meta:
@@ -22,7 +24,10 @@ class PlayCardForm(forms.ModelForm):
 
     CHOICES = [(i, 'Card ' + i) for i in map(str, range(1, 6))]
 
-    selection = forms.ChoiceField(
+    selection = MyChoiceField(
         widget=forms.RadioSelect,
         choices=CHOICES,
     )
+
+    def clean_selection(self):
+        return self.cleaned_data['selection']

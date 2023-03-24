@@ -19,9 +19,11 @@ class Player(models.Model):
         on_delete=models.CASCADE,
     ) # Un jugador tiene una sola partida.
 
+    def has_card(self,card):
+        return self.cards.filter(pk=card.pk).exists()
+
     def __str__(self):
         return self.name
-
 
 class Timeline(models.Model):
     cards = models.ManyToManyField("Card")
@@ -76,12 +78,30 @@ class Game(models.Model):
         self.n_players = len(users)
         self.initialize_timeline()
 
+    def play_a_card(self,card_id,prevYear,postYear):
+        card_to_play = Card.objects.get(pk=card_id)
+        current_player = self.current_player
+        if(current_player.has_card(card_to_play)):
+            if(card_to_play.is_between_years(prevYear,postYear)):
+                self.timeline.cards.add(card_to_play)
+            else:
+                another_card=self.deck.first()
+                current_player.cards.add(another_card)
+                self.deck.remove(another_card)
+            current_player.cards.remove(card_to_play) # Sin importar se borra
+            self.turn = self.turn + 1
+        else:
+            raise Exception("No es una carta de jugador en curso")
+
     def __str__(self):
         return f"{self.id} (Deck Size {self.deck_size})"
 
 class Card(models.Model):
     text = models.CharField(max_length=2048)
     date = models.DateField()
+
+    def __str__(self):
+        return f'{self.pk}-{self.date.year}-{self.text[0:25]}'
 
     def is_between_years(self, prevYear, postYear):
         """Chequea si la carta se encuentra en el rango de fechas elegido."""

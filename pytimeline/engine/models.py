@@ -17,11 +17,20 @@ class Player(models.Model):
     ) # Un jugador tiene una sola partida.
 
 
+class Timeline(models.Model):
+    cards = models.ManyToManyField("Card")
+    
+
 class Game(models.Model):
     deck_size = models.PositiveIntegerField(default=DEFAULT_DECK_SIZE)
     initial_hand_size = models.PositiveIntegerField(default=DEFAULT_HAND_SIZE)
     deck = models.ManyToManyField("Card")
     current = models.PositiveIntegerField(default=0)
+    timeline = models.OneToOneField(
+        Timeline, 
+        related_name="game",
+        on_delete=models.CASCADE,
+    )
 
     def get_absolute_url(self):
         return reverse('engine:game_details', kwargs={'pk': self.pk})
@@ -35,17 +44,20 @@ class Game(models.Model):
 
     def initialize_deck(self):
         cards = Card.objects.order_by("?")[:self.deck_size]
-        [self.deck.add(c) for c in cards]
+        self.deck.set(cards)
 
+    def initialize_timeline(self):
+        first_card = self.deck.first()
+        self.timeline.cards.add(first_card)
+        self.deck.remove(first_card)
 
     def start(self, users):
         """Inicialize a new game for the given users."""
-        
+
         self.initialize_deck()
         for u in users:
             self.register_user(u)
-        #self.timeline.add(self.first_from_deck()))
-        print("······· Start " + str(users))
+        self.initialize_timeline()
 
 class Card(models.Model):
     text = models.CharField(max_length=2048)

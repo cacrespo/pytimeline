@@ -60,7 +60,6 @@ class PlayGame(BaseUpdateView):
     form_class = PlayCardForm
 
     def form_valid(self,form):
-        import ipdb; ipdb.set_trace()
         card_id = self.request.POST['selection']
         before_year = self.request.POST['before_year']
         after_year = self.request.POST['after_year']

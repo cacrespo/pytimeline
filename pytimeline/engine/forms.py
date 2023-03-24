@@ -24,6 +24,7 @@ class PlayCardForm(forms.ModelForm):
 
     CHOICES = [(i, 'Card ' + i) for i in map(str, range(1, 6))]
 
+    player_name = forms.HiddenInput()
     selection = MyChoiceField(
         widget=forms.RadioSelect,
         choices=CHOICES,

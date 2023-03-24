@@ -260,25 +260,20 @@
     <h2>Timeline: {{ object.timeline.cards.count }} cards</h2>
 
     <ol>
-        {% for c in object.timeline.cards.all %}
-            <li>
-                <label for="id_selection_{{ forloop.counter }}">
-                    <input type="radio" name="position" value="{{ c.date }}" required="" id="id_selection_{{ forloop.counter }}">
-                    (Place your card here)
-                </label>
-            </li>
-            <li>{{ c.date }} - {{ c.text }}</li>
-
-            {% if forloop.last %} {% with last=forloop.counter|add:'1' %}
+        {% for elem in timeline_context %}
+            {% if elem.is_marker %}
                 <li>
-                    <label for="id_selection_{{ last }}">
-                        <input type="radio" name="position" value="{{ last }}" required="" id="id_selection_{{ last }}">
+                    <label for="id_position_{{ forloop.counter }}">
+                        <input type="radio" name="position" value="{{ elem.value }}" required="" id="id_position_{{ forloop.counter }}">
                         (Place your card here)
                     </label>
                 </li>
-            {% endwith %}{% endif %}
+            {% else %}
+                <li>{{ elem.value.date }} - {{ elem.value.text }}</li>
+            {% endif %}
         {% endfor %}
     </ol>
 
+    <input type="hidden" name="player_name" value="{{ player.name }}">
     <input type="submit" value="Play card">
 </form> -->

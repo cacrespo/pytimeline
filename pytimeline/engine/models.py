@@ -1,3 +1,6 @@
+from datetime import date
+
+
 from django.db import models
 
 from django.urls import reverse
@@ -19,15 +22,15 @@ class Player(models.Model):
 
 class Timeline(models.Model):
     cards = models.ManyToManyField("Card")
-    
 
 class Game(models.Model):
     deck_size = models.PositiveIntegerField(default=DEFAULT_DECK_SIZE)
     initial_hand_size = models.PositiveIntegerField(default=DEFAULT_HAND_SIZE)
     deck = models.ManyToManyField("Card")
-    current = models.PositiveIntegerField(default=0)
+    turn = models.PositiveIntegerField(default=0)
+    n_players = models.PositiveSmallIntegerField(default=0)
     timeline = models.OneToOneField(
-        Timeline, 
+        Timeline,
         related_name="game",
         on_delete=models.CASCADE,
         null=True,
@@ -36,6 +39,11 @@ class Game(models.Model):
     def get_absolute_url(self):
         return reverse('engine:game_details', kwargs={'pk': self.pk})
 
+    @property
+    def current_player(self):
+        print("...............", self.turn, self.n_players)
+        player_idx = self.turn % self.n_players
+        return self.players.order_by("id")[player_idx]
 
     def register_player(self, name):
         """Agrega un usuario al state y saca cartas del deck para darle."""
@@ -63,9 +71,17 @@ class Game(models.Model):
         self.initialize_deck()
         for u in users:
             self.register_player(u)
+        self.n_players = len(users)
         self.initialize_timeline()
 
 class Card(models.Model):
     text = models.CharField(max_length=2048)
     date = models.DateField()
+
+    def is_between_years(self, prevYear, postYear):
+        """Chequea si la carta se encuentra en el rango de fechas elegido."""
+
+        # TODO Recibir y comparar fechas
+        # return self.date >= date(prevYear, 1, 1) and self.date <= Datetime(postYear, 1, 1)
+        return self.date.year >= prevYear and self.date.year <= postYear
 

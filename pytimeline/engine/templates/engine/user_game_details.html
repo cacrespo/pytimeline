@@ -1,1 +1,20 @@
-<h1>Game Details for: {{ object.pk }}</h1>
+<h1>Game Details for: {{player.name}}</h1>
+<small>Currently playing: {{ object.current_player.name }}</small>
+
+<h2>Deck: {{ object.deck.count }} cards</h2>
+
+<h2>Timeline: {{ object.timeline.cards.count }} cards</h2>
+
+<ol>
+    {% for c in object.timeline.cards.all %}
+        <li>{{ c.date }} - {{ c.text }}</li>
+    {% endfor %}
+</ol>
+
+<h2>Your cards: {{ player.cards.count }}</h2>
+
+<ol>
+    {% for c in player.cards.all %}
+        <li>{{ c.date }} - {{ c.text }}</li>
+    {% endfor %}
+</ol>            

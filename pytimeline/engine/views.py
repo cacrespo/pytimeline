@@ -1,7 +1,7 @@
 from django.http import HttpResponse
-from engine.forms import NewGameForm
+from engine.forms import NewGameForm, PlayCardForm
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, ModelFormMixin
 
 
 from engine.models import Game
@@ -45,8 +45,9 @@ class GameDetails(DetailView):
     model = Game
 
 
-class UserGameDetails(DetailView):
+class UserGameDetails(DetailView, ModelFormMixin):
     model = Game
+    form_class = PlayCardForm
     template_name = "engine/user_game_details.html"
 
     def get_context_data(self, **kwargs):

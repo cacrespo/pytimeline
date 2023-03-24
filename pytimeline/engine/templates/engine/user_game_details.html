@@ -3,18 +3,50 @@
 
 <h2>Deck: {{ object.deck.count }} cards</h2>
 
-<h2>Timeline: {{ object.timeline.cards.count }} cards</h2>
-
-<ol>
-    {% for c in object.timeline.cards.all %}
-        <li>{{ c.date }} - {{ c.text }}</li>
-    {% endfor %}
-</ol>
-
 <h2>Your cards: {{ player.cards.count }}</h2>
 
-<ol>
-    {% for c in player.cards.all %}
-        <li>{{ c.date }} - {{ c.text }}</li>
-    {% endfor %}
-</ol>            
+<form action="" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <ol>
+            {% for c in player.cards.all %}
+                <li>
+                    <label for="id_selection_{{ c.pk }}">
+                        <input 
+                                type="radio" 
+                                name="selection" 
+                                value="{{ c.pk }}" 
+                                required="" 
+                                id="id_selection_{{ c.pk }}">
+                        {{ c.text }}
+                    </label>
+                </li>
+            {% endfor %}
+        </ol>         
+    </fieldset>
+
+    <h2>Timeline: {{ object.timeline.cards.count }} cards</h2>
+
+    <ol>
+        {% for c in object.timeline.cards.all %}
+            <li>
+                <label for="id_selection_{{ forloop.counter }}">
+                    <input type="radio" name="position" value="{{ c.date }}" required="" id="id_selection_{{ forloop.counter }}">
+                    (Place your card here)
+                </label>
+            </li>
+            <li>{{ c.date }} - {{ c.text }}</li>
+
+            {% if forloop.last %} {% with last=forloop.counter|add:'1' %}
+                <li>
+                    <label for="id_selection_{{ last }}">
+                        <input type="radio" name="position" value="{{ last }}" required="" id="id_selection_{{ last }}">
+                        (Place your card here)
+                    </label>
+                </li>
+            {% endwith %}{% endif %}
+        {% endfor %}
+    </ol>
+
+    <input type="submit" value="Play card">
+</form>

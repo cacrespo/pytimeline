@@ -12,3 +12,17 @@ class NewGameForm(forms.ModelForm):
         widgets = {
             'n_players': forms.HiddenInput(),
         }
+
+
+
+class PlayCardForm(forms.ModelForm):
+    class Meta:
+        model = Game
+        fields = []
+
+    CHOICES = [(i, 'Card ' + i) for i in map(str, range(1, 6))]
+
+    selection = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=CHOICES,
+    )

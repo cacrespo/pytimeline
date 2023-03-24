@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+		<h1 class="text-center mb-4">Maso de Cartas de Poker</h1>
+		<div class="position-relative" style="height: 200px;">
+			<img src="https://dummyimage.com/150x200/000/fff" class="card position-absolute" style="left: 0;">
+			<img src="https://dummyimage.com/150x200/000/fff" class="card position-absolute" style="left: 30px;">
+			<img src="https://dummyimage.com/150x200/000/fff" class="card position-absolute" style="left: 60px;">
+			<img src="https://dummyimage.com/150x200/000/fff" class="card position-absolute" style="left: 90px;">
+		</div>
+	</div>
+
+	<div class="container my-5">
+		
+
+		<div class="row row-cols-5 g-5">
+				{% include 'card.html' %} 
+				{% include 'card.html' %} 
+				{% include 'card.html' %} 
+				{% include 'card.html' %} 
+				{% include 'card.html' %}
+			<!-- Aquí puedes agregar más cartas -->
+		</div>
+	</div>
+{% endblock %}

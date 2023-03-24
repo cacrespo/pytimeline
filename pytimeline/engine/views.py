@@ -19,12 +19,23 @@ class NewGame(CreateView):
     model = Game
     form_class = NewGameForm
 
+    def clean(self):
+        cleaned_data = super().clean()
+        player_names = [
+            cleaned_data.get("player_1"),
+            cleaned_data.get("player_2"),
+            cleaned_data.get("player_3"),
+        ]
+        if len(list(filter(None, map(str.strip, player_names)))) == 0:
+            raise ValidationError("All usernames are empty!")
+        
+        cleaned_data["n_players"] = 3
+
     def get_success_url(self):
         form_data = self.get_form_kwargs()["data"]
         player_1_name = form_data["player_1"]
         player_2_name = form_data["player_2"]
         player_3_name = form_data["player_3"]
-
 
         self.object.start([player_1_name, player_2_name, player_3_name])
         return super().get_success_url()
@@ -37,3 +48,8 @@ class GameDetails(DetailView):
 class UserGameDetails(DetailView):
     model = Game
     template_name = "engine/user_game_details.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["player"] = self.object.players.first()
+        return context

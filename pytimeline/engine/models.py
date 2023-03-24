@@ -25,7 +25,8 @@ class Game(models.Model):
     deck_size = models.PositiveIntegerField(default=DEFAULT_DECK_SIZE)
     initial_hand_size = models.PositiveIntegerField(default=DEFAULT_HAND_SIZE)
     deck = models.ManyToManyField("Card")
-    current = models.PositiveIntegerField(default=0)
+    turn = models.PositiveIntegerField(default=0)
+    n_players = models.PositiveSmallIntegerField(default=0)
     timeline = models.OneToOneField(
         Timeline, 
         related_name="game",

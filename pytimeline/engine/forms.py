@@ -8,4 +8,7 @@ class NewGameForm(forms.ModelForm):
     player_3 = forms.CharField()
     class Meta:
         model = Game
-        fields = []
+        fields = ["n_players"]
+        widgets = {
+            'n_players': forms.HiddenInput(),
+        }

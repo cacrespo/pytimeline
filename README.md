@@ -26,10 +26,30 @@ pip install django_extensions  # https://python-poetry.org/docs/basic-usage/
 
 # Tareas
 
-1. Escribir los modelos
-1. Escribir vistas
-1. Escribir templates
-1. Resolver despliegue
+1. Escribir los modelos (hay versiones iniciales)
+1. Escribir vistas: falta la lógica principal del juego y la de cada jugador
+1. Escribir templates: el de cada jugar (polling) y botón jugar. Amor a todos.
+1. Resolver despliegue: TBD
+1. Features, features, features
+
+# Features
+
+* Single player
+* N jugadores
+* Configuración dinámica del juego (nombre de sala, tamaño del mazo, etc)
+* Amor a las pantallas actuales
+* Sistema de puntos
+* API rest para habilitar múltiples clientes
+* Stats y pantalla de jugadas históricas por jigador
+* AuthN & AuthZ
+* Ranking de jugadores
+* Imágenes en las cards
+* Cargar más cards
+* Categorías en las cards (poder configurar mazos con múltiples categorías)
+* Frotends buena onda
+* 
+
+# Pseudo-código brainstorm inicial
 
 ```python
 print("Hello world!")

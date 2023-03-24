@@ -19,6 +19,9 @@ class Player(models.Model):
         on_delete=models.CASCADE,
     ) # Un jugador tiene una sola partida.
 
+    def __str__(self):
+        return self.name
+
 
 class Timeline(models.Model):
     cards = models.ManyToManyField("Card")
@@ -73,6 +76,9 @@ class Game(models.Model):
             self.register_player(u)
         self.n_players = len(users)
         self.initialize_timeline()
+
+    def __str__(self):
+        return f"{self.id} (Deck Size {self.deck_size})"
 
 class Card(models.Model):
     text = models.CharField(max_length=2048)

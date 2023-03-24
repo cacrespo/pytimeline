@@ -9,9 +9,9 @@ DEFAULT_HAND_SIZE = 5
 
 class Player(models.Model):
     name = models.CharField(max_length=64)
-    # cards = many2many(Card)
+    cards = models.ManyToManyField("Card")
     game = models.ForeignKey(
-        "engine.Game", 
+        "engine.Game",
         related_name="players",
         on_delete=models.CASCADE,
     ) # Un jugador tiene una sola partida.
@@ -36,11 +36,14 @@ class Game(models.Model):
         return reverse('engine:game_details', kwargs={'pk': self.pk})
 
 
-    def register_user(self, name):
+    def register_player(self, name):
         """Agrega un usuario al state y saca cartas del deck para darle."""
         p = Player.objects.create(name=name, game=self)
-        #players_cards = self.extract_cards_from_deck()
-        #p.add(players_cards)
+
+        cards_selected = self.deck.all()[0:self.initial_hand_size]
+        p.cards.set(cards_selected)
+        self.deck.remove(*cards_selected)
+
 
     def initialize_deck(self):
         cards = Card.objects.order_by("?")[:self.deck_size]

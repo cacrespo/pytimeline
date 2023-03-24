@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Maso de Cartas de Poker con Bootstrap 5.2</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css">
-</head>
-<body>
-	<div class="container my-5">
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
 		<h1 class="text-center mb-4">Maso de Cartas de Poker</h1>
 		<div class="position-relative" style="height: 200px;">
 			<img src="https://dummyimage.com/150x200/000/fff" class="card position-absolute" style="left: 0;">
@@ -29,6 +23,4 @@
 			<!-- Aquí puedes agregar más cartas -->
 		</div>
 	</div>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}

@@ -51,7 +51,10 @@ class GameDetails(DetailView):
 from collections import namedtuple
 
 
-TimelineElement = namedtuple("TimelineElement", ("is_marker", "value"))
+TimelineElement = namedtuple(
+    "TimelineElement", 
+    ("before_year", "card", "after_year")
+)
 
 def get_first_position_marker(card):
     """"""
@@ -70,34 +73,49 @@ def get_last_position_marker(card):
 
 def get_timeline_context(cards):
         first_card = cards[0]
+        print(cards)
         # Arranco con un marker y la primer carta
-        timeline_context = [
-            TimelineElement(
-                True, get_first_position_marker(first_card),
-            ),
-            TimelineElement(
-                False, first_card
-            )  
-        ]
-        for i in range(1, len(cards)):
-            # Si hay más cartas, meto un marker y la carta
-            prev = cards[i-1]
-            post_card = cards[i]
-            marker = get_position_marker(prev, post_card)
-            timeline_context += [
+        if len(cards) == 1:
+            timeline_context = [
                 TimelineElement(
-                    True, marker
-                ),
+                    get_first_position_marker(first_card),
+                    first_card,
+                    get_last_position_marker(first_card)
+                )  
+            ]
+        else:
+
+            post_marker = get_position_marker(cards[0], cards[1])
+            timeline_context = [
                 TimelineElement(
-                    False, post_card
+                    get_first_position_marker(cards[0]),
+                    first_card,
+                    post_marker
                 )
             ]
-        # Al final meto el último marker
-        timeline_context.append(
-            TimelineElement(
-                True, get_last_position_marker(cards[-1])
+
+            for i in range(1, len(cards) - 1):
+                # Si hay más cartas, meto un marker y la carta
+                card = cards[i]
+                next_card = cards[i+1]
+                new_marker = get_position_marker(card, next_card)
+                timeline_context.append(
+                    TimelineElement(
+                        post_marker,
+                        cards[i],
+                        new_marker                        
+                    )  
+                )
+                post_marker = new_marker
+            
+            timeline_context.append(
+                TimelineElement(
+                    post_marker,
+                    cards[-1],
+                    get_last_position_marker(cards[-1])                        
+                )  
             )
-        )
+
         return timeline_context
 
 
@@ -109,7 +127,7 @@ class UserGameDetails(DetailView, ModelFormMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["player"] = self.object.players.get(name=self.kwargs['player_name'])
-        cards = list(self.object.timeline.cards.all())
+        cards = list(self.object.timeline.cards.order_by("date__year"))
         context["timeline_context"] = get_timeline_context(cards)
 
         return context
@@ -122,14 +140,26 @@ class PlayGame(BaseUpdateView):
         card_id = self.request.POST['selection']
         position = self.request.POST['position']
         before_year, after_year = map(int, position.split(DIVIDER))
+
         self.object.play_a_card(card_id, before_year, after_year)
+
         return super().form_valid(form)
     
     def get_success_url(self):
-        # import ipdb; ipdb.set_trace()
-        return reverse(
-            "engine:user_game_details", kwargs={
-                "pk": self.object.pk, 
-                "player_name": self.request.POST.get("player_name")
-            }
-        )
+        
+        if self.object.finished:
+            url = ""
+        else:
+            url = reverse(
+                "engine:user_game_details", 
+                kwargs={
+                    "pk": self.object.pk, 
+                    "player_name": self.request.POST.get("player_name")
+                }
+            )
+
+        return url
+
+class EndGame(DetailView):
+    model = Game
+    template_name = "engine/end_game.html"

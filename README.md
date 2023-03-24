@@ -9,9 +9,9 @@ pip install django_extensions  # https://python-poetry.org/docs/basic-usage/
 
 ```
 ## Run 
-
+```bash
 python pytimeline/manage.py  runserver  localhost:8003(o puerto que prefieras)
-
+```
 
 ## Vistas con sus templates
 

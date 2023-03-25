@@ -5,7 +5,12 @@
     {% endfor %}
 </ol>
 
-Cards in deck: {{ object.deck.count }}
+<span>Cards in deck: {{ object.deck.count }} </span>
+
+
+<span> deck : {{ object.discard_deck.count }} cards </span>
+
+<span>Last discard :{{ object.discard_deck.last }} </span>
 
 Timeline: {{ object.timeline.cards.count }} cards
 <ol>

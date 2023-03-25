@@ -47,7 +47,7 @@ class Game(models.Model):
         on_delete=models.CASCADE,
         null=True,
     )
-    # TODO: mazo de descarte. Para ir guardando las mal jugadas.
+    discard_deck = models.ManyToManyField("Card",related_name='discard_deck')
 
     def get_absolute_url(self):
         return reverse('engine:game_details', kwargs={'pk': self.pk})
@@ -105,6 +105,7 @@ class Game(models.Model):
             another_card=self.deck.first()
             self.current_player.cards.add(another_card)
             self.deck.remove(another_card)
+            self.discard_deck.add(card_to_play)
             print(f"····\tJugó mal :-(")
         self.current_player.cards.remove(card_to_play) # Sin importar se borra
         self.turn = self.turn + 1

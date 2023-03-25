@@ -1,13 +1,16 @@
 from datetime import date
 from django.db import models
 from django.urls import reverse
-
+from django.contrib import messages
 
 DEFAULT_DECK_SIZE = 60
 DEFAULT_HAND_SIZE = 5
 
 
 class CardNotInUsersHand(Exception):
+    pass
+
+class GameWithNoUsers(Exception):
     pass
 
 
@@ -65,7 +68,7 @@ class Game(models.Model):
     def current_player(self):
         player_idx = self.turn % self.n_players
         return self.players.order_by("id")[player_idx]
-    
+
     @property
     def finished(self):
         user_won = self.players.filter(cards=None).exists()
@@ -99,6 +102,10 @@ class Game(models.Model):
         """Inicialize a new game for the given users."""
         self.initialize_deck()
         players = Player.objects.filter(game=self)
+        if not players:
+            raise GameWithNoUsers(
+                f"No se puede iniciar el juego {self.pk} '{self.title}'"\
+                " sin jugadores")
         for p in players:
             self.initialize_player(p)
         self.n_players = players.count()
@@ -124,7 +131,7 @@ class Game(models.Model):
         # TODO:  validar que esos años están en las cartas del Timeline
         if self.current_player.has_card(card_to_play):
             print(f"···· Jugando {self.current_player.name}: quiere jugar {card_to_play.date.year} entre {prevYear} y {postYear}")
-            self._play_existing_card(card_to_play, prevYear, postYear)   
+            self._play_existing_card(card_to_play, prevYear, postYear)
         else:
             print("···· ERROR: intentando jugar carta que no tiene el jugador actual")
             raise CardNotInUsersHand(f"El jugador {self.current_player.name} no tiene la carta {card_id}")

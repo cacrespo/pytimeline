@@ -2,12 +2,16 @@ from django.contrib import admin
 from .models import Game, Player
 from django.urls import reverse
 from django.utils.html import format_html
-
+from django.contrib import messages
+from engine.models import GameWithNoUsers
 
 @admin.action(description='Start the selected games')
 def start_a_game(modeladmin, request, queryset):
     for game in queryset:
-        game.start()
+        try:
+            game.start()
+        except GameWithNoUsers as err:
+            messages.error(request, str(err))
 
 class PlayerInLine(admin.StackedInline):
     model = Player

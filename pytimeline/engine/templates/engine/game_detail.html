@@ -29,12 +29,13 @@
     {% endfor %}
 </ol>
 
+
 <ol>
     {% for p in object.players.all %}
         <li>
             {{ p.name }} cards: {{ p.cards.count }} (<a href="{% url 'engine:user_game_details' object.pk p.name %}">link</a>)
 
-            <ol>
+            <ol class="list-inline">
                 {% for c in p.cards.all %}
                     <li class="list-inline-item">
                         {% include 'engine/card_basic.html' with card=c %}
@@ -45,5 +46,6 @@
         </li>
     {% endfor %}
 </ol>
+
 
 {% endblock %}

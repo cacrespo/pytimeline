@@ -52,6 +52,17 @@ class Game(models.Model):
     def current_player(self):
         player_idx = self.turn % self.n_players
         return self.players.order_by("id")[player_idx]
+    
+    @property
+    def finished(self):
+        user_won = self.players.filter(cards=None).exists()
+        return user_won or self.deck_is_empty()
+
+    def get_winner(self):
+        return self.players.filter(cards=None).exists() and self.players.get(cards=None) or None
+
+    def deck_is_empty(self):
+        return self.deck.count() == 0
 
     def register_player(self, name):
         """Agrega un usuario al state y saca cartas del deck para darle."""

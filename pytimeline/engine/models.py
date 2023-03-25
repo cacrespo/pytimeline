@@ -1,7 +1,7 @@
 from datetime import date
 from django.db import models
 from django.urls import reverse
-
+from django.contrib import messages
 
 DEFAULT_DECK_SIZE = 60
 DEFAULT_HAND_SIZE = 5
@@ -10,8 +10,16 @@ DEFAULT_HAND_SIZE = 5
 class CardNotInUsersHand(Exception):
     pass
 
+class GameWithNoUsers(Exception):
+    pass
+
 
 class Player(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'game'], name='unique_username_per_game')
+        ]
+
     name = models.CharField(max_length=64)
     cards = models.ManyToManyField("Card")
     game = models.ForeignKey(
@@ -20,7 +28,8 @@ class Player(models.Model):
         on_delete=models.CASCADE,
     ) # Un jugador tiene una sola partida.
 
-    # TODO: Agregar restricción de unique_together(name, game)
+    def __str__(self):
+        return self.name
 
     def has_card(self,card):
         return self.cards.filter(pk=card.pk).exists()
@@ -49,6 +58,9 @@ class Game(models.Model):
     )
     discard_deck = models.ManyToManyField("Card",related_name='discard_deck')
 
+    def __str__(self):
+        return self.title
+
     def get_absolute_url(self):
         return reverse('engine:game_details', kwargs={'pk': self.pk})
 
@@ -56,14 +68,14 @@ class Game(models.Model):
     def current_player(self):
         player_idx = self.turn % self.n_players
         return self.players.order_by("id")[player_idx]
-    
+
     @property
     def finished(self):
         user_won = self.players.filter(cards=None).exists()
         return user_won or self.deck_is_empty()
 
     def get_winner(self):
-        return self.players.filter(cards=None).exists() and self.players.get(cards=None) or None
+        return self.turn and self.players.filter(cards=None).exists() and self.players.get(cards=None) or None
 
     def deck_is_empty(self):
         return self.deck.count() == 0
@@ -90,6 +102,10 @@ class Game(models.Model):
         """Inicialize a new game for the given users."""
         self.initialize_deck()
         players = Player.objects.filter(game=self)
+        if not players:
+            raise GameWithNoUsers(
+                f"No se puede iniciar el juego {self.pk} '{self.title}'"\
+                " sin jugadores")
         for p in players:
             self.initialize_player(p)
         self.n_players = players.count()
@@ -115,7 +131,7 @@ class Game(models.Model):
         # TODO:  validar que esos años están en las cartas del Timeline
         if self.current_player.has_card(card_to_play):
             print(f"···· Jugando {self.current_player.name}: quiere jugar {card_to_play.date.year} entre {prevYear} y {postYear}")
-            self._play_existing_card(card_to_play, prevYear, postYear)   
+            self._play_existing_card(card_to_play, prevYear, postYear)
         else:
             print("···· ERROR: intentando jugar carta que no tiene el jugador actual")
             raise CardNotInUsersHand(f"El jugador {self.current_player.name} no tiene la carta {card_id}")
@@ -130,8 +146,4 @@ class Card(models.Model):
 
     def is_between_years(self, prevYear, postYear):
         """Chequea si la carta se encuentra en el rango de fechas elegido."""
-
-        # TODO Recibir y comparar fechas
-        # return self.date >= date(prevYear, 1, 1) and self.date <= Datetime(postYear, 1, 1)
-        return self.date.year >= prevYear and self.date.year <= postYear
-
+        return prevYear <= self.date.year <= postYear

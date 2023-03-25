@@ -1,0 +1,10 @@
+<h1>Welcome to the juegazo!</h1>
+<ol>
+    {% for game in object_list %}
+        <li>
+            <a href="{% url 'engine:game_details' game.pk %}">{{ game }}</a>
+        </li>
+    {% endfor %}
+</ol>
+
+<a href="{% url 'engine:new_game' %}">Create a new game.</a>

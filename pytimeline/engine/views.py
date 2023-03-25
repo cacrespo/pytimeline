@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from engine.forms import NewGameForm, PlayCardForm
+from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, ModelFormMixin, BaseUpdateView
 from django.urls import reverse
@@ -10,11 +11,14 @@ MAX_YEAR = 9999
 DIVIDER = "/"
 
 def index(request):
-    return HttpResponse("Bienvenido al juegazo. acá el listado de juegos.")
+    return HttpResponse(
+        "<h1>Bienvenido al juegazo</h1><p><a href='"
+        + reverse("engine:new_game")
+        +"'>Empezá un juego nuevo</a></p>")
 
 
-def new_game(request):
-    return HttpResponse("New game")
+class GamesList(ListView):
+    model = Game
 
 
 class NewGame(CreateView):
@@ -112,7 +116,7 @@ def get_timeline_context(cards):
                 TimelineElement(
                     post_marker,
                     cards[-1],
-                    get_last_position_marker(cards[-1])                        
+                    get_last_position_marker(cards[-1])
                 )  
             )
 
@@ -148,7 +152,12 @@ class PlayGame(BaseUpdateView):
     def get_success_url(self):
         
         if self.object.finished:
-            url = ""
+            url = reverse(
+                "engine:end_game", 
+                kwargs={
+                    "pk": self.object.pk
+                }
+            )
         else:
             url = reverse(
                 "engine:user_game_details", 

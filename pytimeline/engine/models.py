@@ -12,6 +12,11 @@ class CardNotInUsersHand(Exception):
 
 
 class Player(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'game'], name='unique_username_per_game')
+        ]
+
     name = models.CharField(max_length=64)
     cards = models.ManyToManyField("Card")
     game = models.ForeignKey(
@@ -19,8 +24,6 @@ class Player(models.Model):
         related_name="players",
         on_delete=models.CASCADE,
     ) # Un jugador tiene una sola partida.
-
-    # TODO: Agregar restricción de unique_together(name, game)
 
     def __str__(self):
         return self.name
@@ -69,7 +72,7 @@ class Game(models.Model):
         return user_won or self.deck_is_empty()
 
     def get_winner(self):
-        return self.players.filter(cards=None).exists() and self.players.get(cards=None) or None
+        return self.turn and self.players.filter(cards=None).exists() and self.players.get(cards=None) or None
 
     def deck_is_empty(self):
         return self.deck.count() == 0

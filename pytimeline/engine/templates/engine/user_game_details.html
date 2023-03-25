@@ -16,7 +16,6 @@
     width: 190px;
     height: 200px;
     padding: 8px;
-    background: url("/static/img/fff.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -106,39 +105,52 @@
   }
 </style>
 <div class="game-container">
+    <h1>{{object.current_player.name}}</h1>
   <div class="timeline">
     <div class="deck card">
       <span>{{ object.deck.count }}</span>
       <small>Cards remaining</small>
     </div>
-    {% for c in object.timeline.cards.all %}
-        <div class="card-wrapper">
-            <div class="before-area">
-                <span>BEFORE</span>
-            </div>
-            {% include 'card.html' with card=c %}
-            <div class="after-area">
-                <span>AFTER</span>
-            </div>
+    {% for e in timeline_context %}
+    <div class="card-wrapper">
+        <div class="before-area" data-marker-value="{{e.before_year}}">
+            <span>BEFORE</span>
         </div>
+        {% include 'card.html' with card=e.card is_active_player=is_active_player timeline=True %}
+        <div class="after-area" data-marker-value="{{e.after_year}}">
+            <span>AFTER</span>
+        </div>
+    </div>
     {%endfor%}
-  </div>
-  <div class="player-hand">
+</div>
+<div class="player-hand">
     {% for c in player.cards.all %}
-        {% include 'card.html' with card=c %} 
+        {% include 'card.html' with card=c timeline=False %} 
     {% endfor %}
-  </div>
+</div>
+        
+    <form action="{% url 'engine:play_game' object.pk %}" method="post" id="mainForm">
+        {% csrf_token %}
+        <input type="hidden" name="position" id="position">
+        <input type="hidden" name="selection" id="selection">
+        <input type="hidden" name="player_name" id="player_name" value="{{player.name}}">
+    </form>
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", (event) => {
     var dragSrcEl = null;
     let beforeareas = document.querySelectorAll(".before-area");
     let afterareas = document.querySelectorAll(".after-area");
+    let mainForm = document.querySelector('#mainForm')
+    let positionInput = document.querySelector('input#position')
+    let selectionInput = document.querySelector('input#selection')
+    let playerInput = document.querySelector('input#player_name')
 
     function handleDragStart(e) {
       this.style.opacity = "0.4";
-
+        console.log(mainForm)
       dragSrcEl = this;
+      selectionInput.value = e.target.getAttribute('data-card-id')
       enableDropareas()
       e.dataTransfer.effectAllowed = "move";
       e.dataTransfer.setData("text/html", this.innerHTML);
@@ -214,8 +226,22 @@
         area.addEventListener('drop', dropBefore)
     }
 
-    function dropBefore() {
-        console.log('Before')
+    for (const area of afterareas) {
+        area.addEventListener('drop', dropAfter)
+    }
+
+    function dropBefore(e) {
+        const areaElement = e.target.closest('.before-area')
+        const position = areaElement.getAttribute('data-marker-value')
+        positionInput.value = position
+        mainForm.submit()
+    }
+    
+    function dropAfter(e) {
+        const areaElement = e.target.closest('.after-area')
+        const position = areaElement.getAttribute('data-marker-value')
+        positionInput.value = position
+        mainForm.submit()
     }
 
     let items = document.querySelectorAll(".container .card");

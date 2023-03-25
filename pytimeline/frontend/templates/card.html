@@ -1,7 +1,11 @@
-{% load static %}
-
-<div class="card" draggable="true">
-    <div class="card-overlay">
-        <span>{{c.text}}</span>
-    </div>
+{% load static %} 
+{% if timeline %}
+<div class="card" data-card-id="{{card.pk}}">
+    <span>{{card.date.year}}</span>
+    <span>{{card.text}}</span>
 </div>
+{% else %} 
+<div class="card" draggable="{{is_active_player}}" data-card-id="{{card.pk}}">
+    <span>{{card.text}}</span>
+</div>
+{%endif%}

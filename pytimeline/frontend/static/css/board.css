@@ -1,7 +1,7 @@
 .card-column {
   border: 3px solid #666;
   background-color: #ddd;
-  border-radius: .5em;
+  border-radius: 0.5em;
   padding: 10px;
   cursor: move;
 }

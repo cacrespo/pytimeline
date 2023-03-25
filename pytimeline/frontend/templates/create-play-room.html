@@ -1,19 +1,25 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <form>
   <div class="mb-3">
-    <label for="nombreSala" class="form-label">Nombre de la sala (máximo 16 caracteres):</label>
-    <input type="text" class="form-control" id="nombreSala" maxlength="16">
+    <label for="nombreSala" class="form-label"
+      >Nombre de la sala (máximo 16 caracteres):</label
+    >
+    <input type="text" class="form-control" id="nombreSala" maxlength="16" />
   </div>
   <div class="mb-3">
-    <label for="numJugadores" class="form-label">Número de jugadores (entre 2 y 4):</label>
-    <input type="number" class="form-control" id="numJugadores" min="2" max="4">
+    <label for="numJugadores" class="form-label"
+      >Número de jugadores (entre 2 y 4):</label
+    >
+    <input
+      type="number"
+      class="form-control"
+      id="numJugadores"
+      min="2"
+      max="4"
+    />
   </div>
-  <a href="{% url 'frontend:play-room' bord_slug='aaa' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Crear Sala</a>
-
-  {% comment %} <button type="submit" class="btn btn-primary">Crear sala</button> {% endcomment %}
+  <button type="submit" class="btn btn-primary">Crear sala</button>
 </form>
 
 {% endblock %}
-

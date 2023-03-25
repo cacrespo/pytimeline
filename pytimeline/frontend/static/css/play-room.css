@@ -1,0 +1,7 @@
+.profile-imagen {
+    width: 200px;
+    height: 200px;
+    background-image: url('static/img/animal.png');
+    background-position: -50px -100px; /* ajusta las coordenadas a tu necesidad */
+}
+  

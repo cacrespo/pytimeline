@@ -139,8 +139,4 @@ class Card(models.Model):
 
     def is_between_years(self, prevYear, postYear):
         """Chequea si la carta se encuentra en el rango de fechas elegido."""
-
-        # TODO Recibir y comparar fechas
-        # return self.date >= date(prevYear, 1, 1) and self.date <= Datetime(postYear, 1, 1)
-        return self.date.year >= prevYear and self.date.year <= postYear
-
+        return prevYear <= self.date.year <= postYear

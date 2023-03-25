@@ -133,6 +133,7 @@ class UserGameDetails(DetailView, ModelFormMixin):
         context["player"] = self.object.players.get(name=self.kwargs['player_name'])
         cards = list(self.object.timeline.cards.order_by("date__year"))
         context["timeline_context"] = get_timeline_context(cards)
+        context["is_active_player"] = context["player"].pk == self.object.current_player.pk
 
         return context
 

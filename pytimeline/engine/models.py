@@ -97,6 +97,7 @@ class Game(models.Model):
             self.initialize_player(p)
         self.n_players = players.count()
         self.initialize_timeline()
+        self.save()
 
     def _play_existing_card(self, card_to_play, prevYear, postYear):
         if(card_to_play.is_between_years(prevYear, postYear)):

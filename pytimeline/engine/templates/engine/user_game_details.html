@@ -124,7 +124,10 @@
   }
 </style>
 <div class="game-container">
-    <h1>{{object.current_player.name}}</h1>
+    <h1>
+        Currently playing: {{object.current_player.name}}
+        {% if not is_active_player %}<small>(not your turn)</small>{% endif %}
+    </h1>
   <div class="timeline">
     <div class="deck card">
       <span>{{ object.deck.count }}</span>

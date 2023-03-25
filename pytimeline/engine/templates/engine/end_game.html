@@ -1,0 +1,8 @@
+<h1>Game Over</h1>
+
+{% if object.deck_is_empty %}
+    <h2>The deck is empty</h2>
+    
+{% else %}
+    <h2>The winner is: {{object.get_winner.name}} </h2>
+{% endif %}

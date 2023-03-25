@@ -1,21 +1,31 @@
-<h1>Game Details: {{ object.pk }}</h1>
-<ol>
-    {% for p in object.players.all %}
-        <li>{{ p.name }}</li>
+{% extends "base.html" %} 
+{% block content %}
+<h1>Game "{{ object.title }}"</h1>
+
+<h2>Game details</h2>
+<ul>
+    <li>Deck: <b>{{ object.deck.count }}</b> cards</li>
+    <li>Discarded: <b>{{ object.discard_deck.count }}</b> cards (Last discarded: {{ object.discard_deck.last }})</li>
+</ul>
+
+<h2>Timeline (<small class="small">{{ object.timeline.cards.count }} cards</small>)</h2>
+
+<ol class="list-inline">
+    {% for c in object.timeline.cards.all %}
+        <li class="list-inline-item">
+            {% include 'engine/card_basic.html' with card=c %}
+        </li>
     {% endfor %}
 </ol>
 
-<span>Cards in deck: {{ object.deck.count }} </span>
 
-
-<span> deck : {{ object.discard_deck.count }} cards </span>
-
-<span>Last discard :{{ object.discard_deck.last }} </span>
-
-Timeline: {{ object.timeline.cards.count }} cards
+<h2>Players</h2>
 <ol>
-    {% for c in object.timeline.cards.all %}
-        <li>{{ c.date }} - {{ c.text }}</li>
+    {% for p in object.players.all %}
+        <li>
+            {{ p.name }} 
+            <a class="small" href="{% url 'engine:user_game_details' object.pk p.name %}">player's game link</a>
+        </li>
     {% endfor %}
 </ol>
 
@@ -26,7 +36,9 @@ Timeline: {{ object.timeline.cards.count }} cards
 
             <ol>
                 {% for c in p.cards.all %}
-                    <li>{{ c.date }} - {{ c.text }}</li>
+                    <li class="list-inline-item">
+                        {% include 'engine/card_basic.html' with card=c %}
+                    </li>
                 {% endfor %}
             </ol>            
 
@@ -34,3 +46,4 @@ Timeline: {{ object.timeline.cards.count }} cards
     {% endfor %}
 </ol>
 
+{% endblock %}

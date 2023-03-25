@@ -2,11 +2,11 @@
 {% if timeline %}
     <div class="card {% if card.last_correct_card %}correct-card{% endif %}" data-card-id="{{card.pk}}">
         <strong>{{card.date.year}}</strong>
-        <span>{{card.text}}</span>
+        <span title="{{card.text}}">{{card.text}}</span>
         
     </div>
 {% else %} 
     <div class="card" draggable="{{is_active_player}}" data-card-id="{{card.pk}}">
-        <span>{{card.text}}</span>
+        <span title="{{card.text}}">{{card.text}}</span>
     </div>
 {%endif%}

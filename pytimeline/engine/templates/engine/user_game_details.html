@@ -84,9 +84,6 @@
   .game-container .player-hand .card:hover {
     transform: translateY(-90px);
   }
-  .card.over {
-    border: 3px dotted #666;
-  }
 
   [draggable] {
     user-select: none;
@@ -127,6 +124,10 @@
     width: 40px;
     background-color: rgba(0,0,0,.4);
   }
+
+  .before-area.drop-enabled.marker, .after-area.drop-enabled.marker {
+    background-color: rgba(0, 150,0, .4)
+  }
 </style>
 
 <H1>
@@ -149,11 +150,11 @@
     <div class="timeline-cards">
         {% for e in timeline_context %}
             <div class="card-wrapper">
-                <div class="before-area" data-marker-value="{{e.before_year}}">
+                <div class="before-area marker" data-marker-value="{{e.before_year}}">
                     <span>BEFORE</span>
                 </div>
                 {% include 'card.html' with card=e.card is_active_player=is_active_player timeline=True %}
-                <div class="after-area" data-marker-value="{{e.after_year}}">
+                <div class="after-area marker" data-marker-value="{{e.after_year}}">
                     <span>AFTER</span>
                 </div>
             </div>
@@ -208,15 +209,6 @@
       return false;
     }
 
-    function handleDragEnter(e) {
-      this.classList.add("over");
-    }
-
-    function handleDragLeave(e) {
-      this.classList.remove("over");
-
-    }
-
     function handleDrop(e) {
       if (e.stopPropagation) {
         e.stopPropagation(); // stops the browser from redirecting.
@@ -234,22 +226,12 @@
       this.style.opacity = "1";
       disableDropareas()
       items.forEach(function (item) {
-        item.classList.remove("over");
       });
     }
 
-    for (area of [...beforeareas, ...afterareas]) {
+    for (const area of [...beforeareas, ...afterareas]) {
       area.addEventListener("dragover", dropareaOver);
-    }
-
-    function dropareaOver(e) {
-        if (e.preventDefault) e.preventDefault(); 
-        e.target.classList.add("drop-enabled");
-
-        e.dataTransfer.dropEffect = "drop";
-
-        return false;
-        return true
+      area.addEventListener("dragleave", dropareaLeave);
     }
 
     function enableDropareas() {
@@ -261,6 +243,7 @@
     function disableDropareas() {
         for (const area of [...beforeareas, ...afterareas]) {
             area.classList.remove('active')
+            area.classList.remove('drop-enabled')
         }
     }
 
@@ -270,6 +253,21 @@
 
     for (const area of afterareas) {
         area.addEventListener('drop', dropAfter)
+    }
+
+    function dropareaOver(e) {
+        if (e.preventDefault) e.preventDefault();
+        const areaElement = e.target.closest('.marker')
+        areaElement.classList.add('drop-enabled')
+
+        e.dataTransfer.dropEffect = "drop";
+
+        return true
+    }
+
+    function dropareaLeave(e) {
+      const areaElement = e.target.closest('.marker')
+      areaElement.classList.remove('drop-enabled')
     }
 
     function dropBefore(e) {
@@ -289,9 +287,7 @@
     let items = document.querySelectorAll(".container .card");
     items.forEach(function (item) {
       item.addEventListener("dragstart", handleDragStart, false);
-      item.addEventListener("dragenter", handleDragEnter, false);
       item.addEventListener("dragover", handleDragOver, false);
-      item.addEventListener("dragleave", handleDragLeave, false);
       item.addEventListener("drop", handleDrop, false);
       item.addEventListener("dragend", handleDragEnd, false);
     });

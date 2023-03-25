@@ -75,7 +75,7 @@ def get_last_position_marker(card):
     return f"{card.date.year}{DIVIDER}{MAX_YEAR}"
 
 
-def get_timeline_context(cards):
+def get_timeline_context(cards, last_correct_card):
         first_card = cards[0]
         print(cards)
         # Arranco con un marker y la primer carta
@@ -90,6 +90,7 @@ def get_timeline_context(cards):
         else:
 
             post_marker = get_position_marker(cards[0], cards[1])
+            first_card.last_correct_card = (first_card.pk == last_correct_card.pk)
             timeline_context = [
                 TimelineElement(
                     get_first_position_marker(cards[0]),
@@ -101,21 +102,26 @@ def get_timeline_context(cards):
             for i in range(1, len(cards) - 1):
                 # Si hay más cartas, meto un marker y la carta
                 card = cards[i]
+                card.last_correct_card = (card.pk == last_correct_card.pk)
+                
                 next_card = cards[i+1]
                 new_marker = get_position_marker(card, next_card)
                 timeline_context.append(
                     TimelineElement(
                         post_marker,
-                        cards[i],
+                        card,
                         new_marker                        
                     )  
                 )
                 post_marker = new_marker
             
+            
+            last_card = cards[-1]
+            last_card.last_correct_card = (last_card.pk == last_correct_card.pk)
             timeline_context.append(
                 TimelineElement(
                     post_marker,
-                    cards[-1],
+                    last_card,
                     get_last_position_marker(cards[-1])
                 )  
             )
@@ -132,7 +138,7 @@ class UserGameDetails(DetailView, ModelFormMixin):
         context = super().get_context_data(**kwargs)
         context["player"] = self.object.players.get(name=self.kwargs['player_name'])
         cards = list(self.object.timeline.cards.order_by("date__year"))
-        context["timeline_context"] = get_timeline_context(cards)
+        context["timeline_context"] = get_timeline_context(cards, self.object.last_correct_card)
         context["is_active_player"] = context["player"].pk == self.object.current_player.pk
 
         return context

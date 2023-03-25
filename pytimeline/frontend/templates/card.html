@@ -1,11 +1,12 @@
 {% load static %} 
 {% if timeline %}
-<div class="card" data-card-id="{{card.pk}}">
-    <strong>{{card.date.year}}</strong>
-    <span>{{card.text}}</span>
-</div>
+    <div class="card" data-card-id="{{card.pk}}">
+        <strong>{{card.date.year}}</strong> {% if card.last_correct_card %} <small>(última ganadora)</small> {% endif %}
+        <span>{{card.text}}</span>
+        
+    </div>
 {% else %} 
-<div class="card" draggable="{{is_active_player}}" data-card-id="{{card.pk}}">
-    <span>{{card.text}}</span>
-</div>
+    <div class="card" draggable="{{is_active_player}}" data-card-id="{{card.pk}}">
+        <span>{{card.text}}</span>
+    </div>
 {%endif%}

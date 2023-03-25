@@ -43,6 +43,12 @@ class Game(models.Model):
         on_delete=models.CASCADE,
         null=True,
     )
+    last_correct_card = models.OneToOneField(
+        "Card",
+        related_name="last_correct_in_games",
+        on_delete=models.CASCADE,
+        null=True,
+    )
     # TODO: mazo de descarte. Para ir guardando las mal jugadas.
 
     def get_absolute_url(self):
@@ -96,6 +102,7 @@ class Game(models.Model):
     def _play_existing_card(self, card_to_play, prevYear, postYear):
         if(card_to_play.is_between_years(prevYear, postYear)):
             self.timeline.cards.add(card_to_play)
+            self.last_correct_card = card_to_play
             print(f"····\tJugó bien!")
         else:
             another_card=self.deck.first()

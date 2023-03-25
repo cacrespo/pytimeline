@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container d-flex flex-column justify-content-center align-items-center vh-100">
+    <img src="{% static 'img/logo.png' %}" alt="Logo" class="mb-5">
+    <div class="d-grid gap-2 col-6">
+        <a href="{% url 'frontend:create-board' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Nuevo Juego</a>
+                <a href="{% url 'frontend:create-board' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Unete</a>
+
+    </div>
+  </div>
+  
+{% endblock %}
+
+

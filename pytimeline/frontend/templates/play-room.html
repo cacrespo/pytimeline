@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <div class="text-center">
+
+  <div class="row justify-content-around">
+    <div class="col-4">
+
+    Jugadores
+<table class="table  table-sm">
+
+      <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td >Larry the Bird</td>
+    </tr>
+  </tbody>
+  </table>
+
+    </div>
+    <div class="col-4">
+    Configuracion
+    </div>
+  </div>
+
+  <a href="{% url 'frontend:user-play-view' bord_slug='aaa' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Start</a>
+
+  
+</div>
+{% endblock %}
+

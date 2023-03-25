@@ -5,11 +5,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static 'faicon.ico' %}">
     <title>{% block title %}{% endblock %}</title>
     <!--This is where you can input all the css files. The files are in Django format and following the path from the 'static' file -->
     <link href="{% static 'bootstrap-5.2.3-dist/css/bootstrap.min.css' %}"
         rel="stylesheet" media="screen">
   <!--You can add in a navigation bar here if it stays the same across all pages-->
+    {% block head %}{% endblock %}
 
   </head>
   <body>

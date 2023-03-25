@@ -32,11 +32,12 @@ class Timeline(models.Model):
     cards = models.ManyToManyField("Card")
 
 class Game(models.Model):
+    title = models.CharField(max_length=256)
     deck_size = models.PositiveIntegerField(default=DEFAULT_DECK_SIZE)
     initial_hand_size = models.PositiveIntegerField(default=DEFAULT_HAND_SIZE)
     deck = models.ManyToManyField("Card")
     turn = models.PositiveIntegerField(default=0)
-    n_players = models.PositiveSmallIntegerField(default=0)
+    n_players = models.PositiveSmallIntegerField(default=3)
     timeline = models.OneToOneField(
         Timeline,
         related_name="game",
@@ -70,12 +71,10 @@ class Game(models.Model):
     def deck_is_empty(self):
         return self.deck.count() == 0
 
-    def register_player(self, name):
+    def initialize_player(self, player):
         """Agrega un usuario al state y saca cartas del deck para darle."""
-        p = Player.objects.create(name=name, game=self)
-
         cards_selected = self.deck.all()[0:self.initial_hand_size]
-        p.cards.set(cards_selected)
+        player.cards.set(cards_selected)
         self.deck.remove(*cards_selected)
 
     def initialize_deck(self):
@@ -90,13 +89,13 @@ class Game(models.Model):
         self.timeline.cards.add(first_card)
         self.deck.remove(first_card)
 
-    def start(self, users):
+    def start(self):
         """Inicialize a new game for the given users."""
-
         self.initialize_deck()
-        for u in users:
-            self.register_player(u)
-        self.n_players = len(users)
+        players = Player.objects.filter(game=self)
+        for p in players:
+            self.initialize_player(p)
+        self.n_players = players.count()
         self.initialize_timeline()
 
     def _play_existing_card(self, card_to_play, prevYear, postYear):

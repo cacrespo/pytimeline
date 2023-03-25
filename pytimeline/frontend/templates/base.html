@@ -10,6 +10,8 @@
     <!--This is where you can input all the css files. The files are in Django format and following the path from the 'static' file -->
     <link href="{% static 'bootstrap-5.2.3-dist/css/bootstrap.min.css' %}"
         rel="stylesheet" media="screen">
+    <script src="{% static 'jsqr/jsqr-1.0.2-min.js' %}"></script>
+
   <!--You can add in a navigation bar here if it stays the same across all pages-->
     {% block head %}{% endblock %}
 
@@ -26,6 +28,6 @@
     
     <!--I input all of my javascript files at the end just in case the javascript doesn't execute then the page will still load-->
       <script src="{% static 'bootstrap-5.2.3-dist/js/bootstrap.min.js' %}"></script>
-    
+
     
 </html>

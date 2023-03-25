@@ -1,3 +1,4 @@
+from collections import namedtuple
 from django.http import HttpResponse
 from engine.forms import NewGameForm, PlayCardForm
 from django.views.generic import ListView
@@ -10,49 +11,9 @@ from engine.models import Game
 MAX_YEAR = 9999
 DIVIDER = "/"
 
-def index(request):
-    return HttpResponse(
-        "<h1>Bienvenido al juegazo</h1><p><a href='"
-        + reverse("engine:new_game")
-        +"'>Empezá un juego nuevo</a></p>")
-
-
-class GamesList(ListView):
-    model = Game
-
-
-class NewGame(CreateView):
-    template_name = 'new_game.html'
-    model = Game
-    form_class = NewGameForm
-
-    def clean(self):
-        cleaned_data = super().clean()
-        player_names = [
-            cleaned_data.get("player_1"),
-            cleaned_data.get("player_2"),
-            cleaned_data.get("player_3"),
-        ]
-        if len(list(filter(None, map(str.strip, player_names)))) == 0:
-            raise ValidationError("All usernames are empty!")
-        
-        cleaned_data["n_players"] = 3
-
-    def get_success_url(self):
-        form_data = self.get_form_kwargs()["data"]
-        player_1_name = form_data["player_1"]
-        player_2_name = form_data["player_2"]
-        player_3_name = form_data["player_3"]
-
-        self.object.start([player_1_name, player_2_name, player_3_name])
-        return super().get_success_url()
-
 
 class GameDetails(DetailView):
     model = Game
-
-
-from collections import namedtuple
 
 
 TimelineElement = namedtuple(
@@ -77,7 +38,6 @@ def get_last_position_marker(card):
 
 def get_timeline_context(cards, last_correct_card):
         first_card = cards[0]
-        print(cards)
         # Arranco con un marker y la primer carta
         if len(cards) == 1:
             timeline_context = [

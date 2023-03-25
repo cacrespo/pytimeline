@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% load static %}
 
   <div class="text-center">
 
@@ -32,6 +33,7 @@
   </div>
 
   <a href="{% url 'frontend:user-play-view' bord_slug='aaa' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Start</a>
+      <script src="{% static 'js/create_qr.js' %}"></script>
 
   
 </div>

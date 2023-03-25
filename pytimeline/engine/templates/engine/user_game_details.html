@@ -128,10 +128,15 @@
     background-color: rgba(0,0,0,.4);
   }
 </style>
+
+<H1>
+  Now playing "{{ object.title }}"
+</H1>
+
 <div class="game-container" data-is-active-player="{{is_active_player}}">
     <h1>
         {% if is_active_player %}
-            {{object.current_player.name}}, it's your turn!
+            <i>{{object.current_player.name}}</i>, it's your turn!
         {% else %}
             Currently playing: {{object.current_player.name}}<small>(not your turn)</small>
         {% endif %}

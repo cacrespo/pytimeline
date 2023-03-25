@@ -1,6 +1,6 @@
 {% load static %} 
 {% if timeline %}
-    <div class="card" data-card-id="{{card.pk}}">
+    <div class="card {% if card.last_correct_card %}correct-card{% endif %}" data-card-id="{{card.pk}}">
         <strong>{{card.date.year}}</strong> {% if card.last_correct_card %} <small>(última ganadora)</small> {% endif %}
         <span>{{card.text}}</span>
         

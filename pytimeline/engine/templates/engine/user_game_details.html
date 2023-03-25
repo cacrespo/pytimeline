@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+{% block content %}
 <style>
   .game-container {
     position: absolute;
@@ -20,6 +21,10 @@
     background-repeat: no-repeat;
     background-size: cover;
     overflow: hidden;
+  }
+
+  .game-container .card.correct-card {
+    background-color: #74c98b6c;
   }
 
   .game-container .card strong {
@@ -123,7 +128,7 @@
     background-color: rgba(0,0,0,.4);
   }
 </style>
-<div class="game-container">
+<div class="game-container" data-is-active-player="{{is_active_player}}">
     <h1>
         Currently playing: {{object.current_player.name}}
         {% if not is_active_player %}<small>(not your turn)</small>{% endif %}
@@ -169,6 +174,11 @@
     let positionInput = document.querySelector('input#position')
     let selectionInput = document.querySelector('input#selection')
     let playerInput = document.querySelector('input#player_name')
+    let gameContainer = document.querySelector('.game-container')
+
+    if (gameContainer.getAttribute('data-is-active-player') !== 'True') {
+        setTimeout(() => {window.location.reload()}, 2000)
+    }
 
     function handleDragStart(e) {
       this.style.opacity = "0.4";

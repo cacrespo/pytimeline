@@ -77,7 +77,6 @@ def get_last_position_marker(card):
 
 def get_timeline_context(cards, last_correct_card):
         first_card = cards[0]
-        print(cards)
         # Arranco con un marker y la primer carta
         if len(cards) == 1:
             timeline_context = [

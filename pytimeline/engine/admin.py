@@ -36,7 +36,7 @@ def timeline_size(game):
     
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    exclude = ("deck", "turn", "timeline", "last_correct_card","n_players")
+    exclude = ("deck", "turn", "timeline", "last_correct_card","n_players", "discard_deck")
     inlines = [PlayerInLine,]
     actions = [start_a_game]
     list_display = ("pk", "title", "n_players", "deck_size", "initial_hand_size", timeline_size)

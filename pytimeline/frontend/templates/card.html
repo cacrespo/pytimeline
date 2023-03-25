@@ -1,11 +1,12 @@
-{% load static %}
-
-<div class="col card-column" draggable="true">
-    <div class="card">
-        <img src="{% static 'img/fff.png' %}" class="card-img-top" alt="...">        
-        <div class="card-img-overlay">
-            <h5 class="card-title">{{ text_card | default:"NO CART TEXT"}}</h5>
-            <p class="card-text">El As de Picas es la carta más alta en el juego de poker.</p>
-        </div>
+{% load static %} 
+{% if timeline %}
+    <div class="card" data-card-id="{{card.pk}}">
+        <strong>{{card.date.year}}</strong> {% if card.last_correct_card %} <small>(última ganadora)</small> {% endif %}
+        <span>{{card.text}}</span>
+        
     </div>
-</div>
+{% else %} 
+    <div class="card" draggable="{{is_active_player}}" data-card-id="{{card.pk}}">
+        <span>{{card.text}}</span>
+    </div>
+{%endif%}

@@ -109,6 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+PYTIMELINE_ENV/
 
 # Spyder project settings
 .spyderproject

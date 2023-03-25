@@ -43,6 +43,12 @@ class Game(models.Model):
         on_delete=models.CASCADE,
         null=True,
     )
+    last_correct_card = models.OneToOneField(
+        "Card",
+        related_name="last_correct_in_games",
+        on_delete=models.CASCADE,
+        null=True,
+    )
     # TODO: mazo de descarte. Para ir guardando las mal jugadas.
 
     def get_absolute_url(self):
@@ -52,6 +58,17 @@ class Game(models.Model):
     def current_player(self):
         player_idx = self.turn % self.n_players
         return self.players.order_by("id")[player_idx]
+    
+    @property
+    def finished(self):
+        user_won = self.players.filter(cards=None).exists()
+        return user_won or self.deck_is_empty()
+
+    def get_winner(self):
+        return self.players.filter(cards=None).exists() and self.players.get(cards=None) or None
+
+    def deck_is_empty(self):
+        return self.deck.count() == 0
 
     def register_player(self, name):
         """Agrega un usuario al state y saca cartas del deck para darle."""
@@ -85,6 +102,7 @@ class Game(models.Model):
     def _play_existing_card(self, card_to_play, prevYear, postYear):
         if(card_to_play.is_between_years(prevYear, postYear)):
             self.timeline.cards.add(card_to_play)
+            self.last_correct_card = card_to_play
             print(f"····\tJugó bien!")
         else:
             another_card=self.deck.first()

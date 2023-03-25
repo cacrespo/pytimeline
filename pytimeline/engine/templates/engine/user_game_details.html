@@ -125,8 +125,11 @@
 </style>
 <div class="game-container">
     <h1>
-        Currently playing: {{object.current_player.name}}
-        {% if not is_active_player %}<small>(not your turn)</small>{% endif %}
+        {% if is_active_player %}
+            {{object.current_player.name}}, it's your turn!
+        {% else %}
+            Currently playing: {{object.current_player.name}}<small>(not your turn)</small>
+        {% endif %}
     </h1>
   <div class="timeline">
     <div class="deck card">

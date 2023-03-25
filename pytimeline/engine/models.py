@@ -22,6 +22,9 @@ class Player(models.Model):
 
     # TODO: Agregar restricción de unique_together(name, game)
 
+    def __str__(self):
+        return self.name
+
     def has_card(self,card):
         return self.cards.filter(pk=card.pk).exists()
 
@@ -48,6 +51,9 @@ class Game(models.Model):
         null=True,
     )
     discard_deck = models.ManyToManyField("Card",related_name='discard_deck')
+
+    def __str__(self):
+        return self.title
 
     def get_absolute_url(self):
         return reverse('engine:game_details', kwargs={'pk': self.pk})

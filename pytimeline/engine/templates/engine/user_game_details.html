@@ -19,12 +19,19 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    overflow: hidden;
+  }
+
+  .game-container .card strong {
+    font-size: 16px;
   }
 
   .timeline {
     display: flex;
     flex-direction: row;
     gap: 40px;
+    max-width: 100vw;
+    padding: 0px 20px;
   }
 
   .timeline .deck {
@@ -41,6 +48,18 @@
 
   .timeline .deck.card {
     background: rgba(0, 0, 0, 0.6);
+  }
+
+  .timeline-cards {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    max-width: 100vw;
+    overflow-y: auto;
+  }
+
+  .timeline-cards .card {
+    user-select: none;
   }
 
   .game-container .player-hand {
@@ -111,17 +130,19 @@
       <span>{{ object.deck.count }}</span>
       <small>Cards remaining</small>
     </div>
-    {% for e in timeline_context %}
-    <div class="card-wrapper">
-        <div class="before-area" data-marker-value="{{e.before_year}}">
-            <span>BEFORE</span>
-        </div>
-        {% include 'card.html' with card=e.card is_active_player=is_active_player timeline=True %}
-        <div class="after-area" data-marker-value="{{e.after_year}}">
-            <span>AFTER</span>
-        </div>
+    <div class="timeline-cards">
+        {% for e in timeline_context %}
+            <div class="card-wrapper">
+                <div class="before-area" data-marker-value="{{e.before_year}}">
+                    <span>BEFORE</span>
+                </div>
+                {% include 'card.html' with card=e.card is_active_player=is_active_player timeline=True %}
+                <div class="after-area" data-marker-value="{{e.after_year}}">
+                    <span>AFTER</span>
+                </div>
+            </div>
+        {%endfor%}
     </div>
-    {%endfor%}
 </div>
 <div class="player-hand">
     {% for c in player.cards.all %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% load static %}{% block content %}
+
+<form>
+  <div class="mb-3">
+    <label for="nombreSala" class="form-label"
+      >Nombre de la sala (máximo 16 caracteres):</label
+    >
+    <input
+      type="text"
+      class="form-control"
+      id="nombreSala"
+      maxlength="16"
+      value="{{ pk |default:''}}"
+    />
+  </div>
+  <div class="mb-3">
+    <label for="nombreDelJugador" class="form-label"
+      >Nombre de la sala (máximo 16 caracteres):</label
+    >
+    <input
+      type="text"
+      class="form-control"
+      id="nombreDelJugador"
+      maxlength="16"
+    />
+  </div>
+  <button type="submit" class="btn btn-primary">Ingresar ala sala</button>
+</form>
+
+{% endblock %}

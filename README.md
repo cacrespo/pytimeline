@@ -1,5 +1,5 @@
 # pytimeline
-Juego similar a Timeline con efemérides de Argentina
+Juego inspirado en Timeline con efemérides de Argentina
 
 # Dev startup
 
@@ -52,22 +52,3 @@ python pytimeline/manage.py  runserver  localhost:8003(o puerto que prefieras)
 * Categorías en las cards (poder configurar mazos con múltiples categorías)
 * Frotends buena onda
 * Lógica del juego (motor) @cuococarlos, et al
-*
-
-### Pseudo codiguiño
-
-```python
-     def play_turn(card, position):
-        """
-        Play the given card in the given position.
-
-        1) Controla que la card sea del jugador actual
-        2) le saca la carta al jugador
-        3) si está bien ubicada y actualiza el timeline y devuelve SUCCESS
-           si NO esta bien ubicada devuelve FAIL
-        4) En caso de FAIL, entrega la primer carte del deck al jugador
-
-        Mantiene la lógica del usuario actual.
-        """
-        pass
-```

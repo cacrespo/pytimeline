@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'engine',
     'django_extensions',
+    'singleplayer',
 ]
 
 MIDDLEWARE = [

@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('game/', include(('engine.urls', "engine"))),
-    path('', include(('frontend.urls', "frontend"))),
-
+    path('singleplayer/', include(('singleplayer.urls'))),
+    path('multiplayer/', include(('engine.urls', 'engine'))),
+    path('', include(('pages.urls'))),
     path('admin/', admin.site.urls),
 ]

@@ -2,6 +2,7 @@
 Juego inspirado en Timeline con efemérides de Argentina.
 
 > **Note**
+> 
 > Esta iniciativa nace en el marco del PyCamp 2023 - Corrientes (AR).
 > 
 > ¿No sabés que es un PyCamp? [Acá](docs/PYCAMP.md) hay más información 😉)
@@ -25,7 +26,7 @@ Contamos con dos modalidades de juego:
 
 ## Inicializar la aplicación
 ```bash
-python pytimeline/manage.py runserver localhost:8003 (o puerto que prefieras)
+python pytimeline/manage.py runserver localhost:8003 (o el puerto que prefieras)
 ```
 
 ## ¿Querés colaborar?

@@ -5,17 +5,17 @@ Juego inspirado en Timeline con efemérides de Argentina.
 > Esta iniciativa nace en el marco del PyCamp 2023 - Corrientes (AR).
 > ¿No sabés que es un PyCamp? [Acá](docs/PYCAMP.md) hay más información 😉)
 
-La íntención última de todo esto es ofrecer un espacio lúdico donde podamos
-despertar la curiosidad en las personas.
+Nuestra intención es ofrecer un espacio lúdico que ayude a las personas a 
+despertar la curiosidad e interesarse por adquirir nuevos conocimientos.
 
 Por el momento vamos a conmemorar aniversarios y eventos interesantes ligados 
-a la historia argentina. Pero tal vez en un futuro podamos abordar otras 
-geografías.
+a la historia argentina. Tal vez en un futuro podamos abordar otros tópicos y 
+otras geografías.
 
 ## Dinámica de juego
 
 A grandes rasgos, el juego consiste en ordenar correctamente una serie de
-sucesos histpricos que cada jugador recibe de forma aleatoria. El primer
+sucesos históricos que cada jugador recibe de forma aleatoria. El primer
 participante que logra hacerlo gana la partida.
 
 Contamos con dos modalidades de juego:
@@ -26,7 +26,7 @@ Contamos con dos modalidades de juego:
 ```
 ## Run 
 ```bash
-python pytimeline/manage.py  runserver  localhost:8003(o puerto que prefieras)
+python pytimeline/manage.py runserver localhost:8003 (o puerto que prefieras)
 ```
 
 ## ¿Querés colaborar?

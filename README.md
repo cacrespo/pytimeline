@@ -1,54 +1,34 @@
 # pytimeline
-Juego inspirado en Timeline con efemérides de Argentina
+Juego inspirado en Timeline con efemérides de Argentina.
 
-# Dev startup
+> **Note**
+> Esta iniciativa nace en el marco del PyCamp 2023 - Corrientes (AR).
+> ¿No sabés que es un PyCamp? [Acá](docs/PYCAMP.md) hay más información 😉)
 
-```bash
-pip install Django==4.1
-pip install django_extensions  # https://python-poetry.org/docs/basic-usage/
+Nuestra intención es ofrecer un espacio lúdico que ayude a las personas a 
+despertar la curiosidad e interesarse por adquirir nuevos conocimientos.
 
+Por el momento vamos a conmemorar aniversarios y eventos interesantes ligados 
+a la historia argentina. Tal vez en un futuro podamos abordar otros tópicos y 
+otras geografías.
+
+## Dinámica de juego
+
+A grandes rasgos, el juego consiste en ordenar correctamente una serie de
+sucesos históricos que cada jugador recibe de forma aleatoria. El primer
+participante que logra hacerlo gana la partida.
+
+Contamos con dos modalidades de juego:
+- [Single Player](docs/SINGLEPLAYER.md)
+- [Multiplayer](docs/MULTIPLAYER.md)
+
+## Inicializar la aplicación
 ```
 ## Run 
 ```bash
-python pytimeline/manage.py  runserver  localhost:8003(o puerto que prefieras)
+python pytimeline/manage.py runserver localhost:8003 (o puerto que prefieras)
 ```
 
-## Vistas con sus templates
-
-* / : Listado de Games **WIP**
-* /start : 
-    * GET : Form de carga de usuarios y parámetros del juego
-    * POST : Inicializa el juego. redirect a Start-success
-
-* /start-success/<gameID>/ :  muestra IDs de usuarios
-
-* /<gameID>/<userID>/ : 
-    * GET : Si el juego está en marcha: state privado del usuario userID + timeline + current player. Si el juego terminó, te hace forward al ENDgame
-    * POST : juega y te manda a la misma página.
-
-* /<gameID>/end : muestra tabla de resultados
-
-# Tareas
-
-1. Escribir los modelos (hay versiones iniciales)
-1. Escribir vistas: falta la lógica principal del juego y la de cada jugador
-1. Escribir templates: el de cada jugar (polling) y botón jugar. Amor a todos.
-1. Resolver despliegue: TBD
-1. Features, features, features
-
-# Features
-
-* Single player
-* N jugadores
-* Configuración dinámica del juego (nombre de sala, tamaño del mazo, etc)
-* Amor a las pantallas actuales
-* Sistema de puntos
-* API rest para habilitar múltiples clientes
-* Stats y pantalla de jugadas históricas por jigador
-* AuthN & AuthZ
-* Ranking de jugadores
-* Imágenes en las cards
-* Cargar más cards
-* Categorías en las cards (poder configurar mazos con múltiples categorías)
-* Frotends buena onda
-* Lógica del juego (motor) @cuococarlos, et al
+## ¿Querés colaborar?
+Revisá los issues abiertos y pedí para que se te asigne uno. 
+[Acá](docs/CONTRIBUTING.md) más información al respecto.

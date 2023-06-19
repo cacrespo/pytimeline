@@ -1,6 +1,6 @@
 # PyCamp
 
-El PyCamp es un evento organizado por la comunidad de 
+Es un evento organizado por la comunidad de 
 [Python Argentina](https://www.python.org.ar/), donde nos reunimos para
 trabajar en distintos proyectos de software libre relacionados con el lenguaje 
 de programación Python, conocernos y compartir experiencias.

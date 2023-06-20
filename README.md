@@ -5,7 +5,7 @@ Juego inspirado en Timeline con efemérides de Argentina.
 > 
 > Esta iniciativa nace en el marco del PyCamp 2023 - Corrientes (AR).
 > 
-> ¿No sabés que es un PyCamp? [Acá](docs/PYCAMP.md) hay más información 😉)
+> ¿No sabés qué es un PyCamp? [Acá](docs/PYCAMP.md) hay más información 😉)
 
 Nuestra intención es ofrecer un espacio lúdico que ayude a las personas a 
 despertar la curiosidad e interesarse por adquirir nuevos conocimientos.

@@ -26,7 +26,7 @@ Contamos con dos modalidades de juego:
 
 ## Inicializar la aplicación
 ```bash
-python pytimeline/manage.py runserver localhost:8003 (o el puerto que prefieras)
+python pytimeline/manage.py runserver --settings=pytimeline.settings.prod
 ```
 
 ## ¿Querés colaborar?

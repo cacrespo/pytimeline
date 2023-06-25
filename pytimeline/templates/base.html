@@ -1,34 +1,21 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="{% static 'faicon.ico' %}" />
-    <title>{% block title %}{% endblock %}</title>
-    <!--This is where you can input all the css files. The files are in Django format and following the path from the 'static' file -->
-    {% block head_block %}
-    <link
-      href="{% static 'bootstrap-5.2.3-dist/css/bootstrap.min.css' %}"
-      rel="stylesheet"
-      media="screen"
-    />
-    {% endblock %}
-    <script src="{% static 'jsqr/jsqr-1.0.2-min.js' %}"></script>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-    <!--You can add in a navigation bar here if it stays the same across all pages-->
-    {% block head %}{% endblock %}
-  </head>
-  <body>
-    <div class="container">{% block content %}{% endblock %}</div>
-  </body>
+<header>
+    <h1>Pytimeline v0.1</h1>
+</header>
 
-  <footer>
-    <!--Anything that repeats in your footer goes here-->
-  </footer>
-  {% block js_block %}
-  <script src="{% static 'bootstrap-5.2.3-dist/js/bootstrap.min.js' %}"></script>
-  {{ block.super }} {% endblock %}
-  <!--I input all of my javascript files at the end just in case the javascript doesn't execute then the page will still load-->
+<body>  
+{% block content %}{% endblock content %}
+</body>
+
+<footer>
+Copyright 2023 - Carlos A. Crespo et al
+</footer>
+
 </html>

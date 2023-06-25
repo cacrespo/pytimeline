@@ -1,25 +1,10 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %}
+{% load static %}
 
-<div
-  class="container d-flex flex-column justify-content-center align-items-center vh-100"
->
-  <img src="{% static 'img/logo.png' %}" alt="Logo" class="mb-5" />
-  <div class="d-grid gap-2 col-6">
-    <a
-      href="{% url 'frontend:create-board' %}"
-      class="btn btn-primary btn-lg active"
-      role="button"
-      aria-pressed="true"
-      >Nuevo Juego</a
-    >
-    <a
-      href="{% url 'frontend:join-play-room' %}"
-      class="btn btn-primary btn-lg active"
-      role="button"
-      aria-pressed="true"
-      >Unete</a
-    >
-  </div>
-</div>
+{% block content %}
 
+  <img src="{% static 'img/logo.png' %}" alt="Logo" >
+  <button name="button_sp" type="submit" onclick="location.href=''"> Single Player </button>  
+  <button name="button_mp" type="submit" onclick="location.href=''"> Multiplayer </button>  
+    
 {% endblock %}

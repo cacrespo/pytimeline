@@ -17,7 +17,7 @@ class GameDetails(DetailView):
 
 
 TimelineElement = namedtuple(
-    "TimelineElement", 
+    "TimelineElement",
     ("before_year", "card", "after_year")
 )
 
@@ -45,7 +45,7 @@ def get_timeline_context(cards, last_correct_card):
                     get_first_position_marker(first_card),
                     first_card,
                     get_last_position_marker(first_card)
-                )  
+                )
             ]
         else:
 
@@ -63,19 +63,19 @@ def get_timeline_context(cards, last_correct_card):
                 # Si hay más cartas, meto un marker y la carta
                 card = cards[i]
                 card.last_correct_card = (card.pk == last_correct_card.pk)
-                
+
                 next_card = cards[i+1]
                 new_marker = get_position_marker(card, next_card)
                 timeline_context.append(
                     TimelineElement(
                         post_marker,
                         card,
-                        new_marker                        
-                    )  
+                        new_marker
+                    )
                 )
                 post_marker = new_marker
-            
-            
+
+
             last_card = cards[-1]
             last_card.last_correct_card = (last_card.pk == last_correct_card.pk)
             timeline_context.append(
@@ -83,7 +83,7 @@ def get_timeline_context(cards, last_correct_card):
                     post_marker,
                     last_card,
                     get_last_position_marker(cards[-1])
-                )  
+                )
             )
 
         return timeline_context
@@ -92,7 +92,7 @@ def get_timeline_context(cards, last_correct_card):
 class UserGameDetails(DetailView, ModelFormMixin):
     model = Game
     form_class = PlayCardForm
-    template_name = "engine/user_game_details.html"
+    template_name = "templates/engine/user_game_details.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -115,21 +115,21 @@ class PlayGame(BaseUpdateView):
         self.object.play_a_card(card_id, before_year, after_year)
 
         return super().form_valid(form)
-    
+
     def get_success_url(self):
-        
+
         if self.object.finished:
             url = reverse(
-                "engine:end_game", 
+                "engine:end_game",
                 kwargs={
                     "pk": self.object.pk
                 }
             )
         else:
             url = reverse(
-                "engine:user_game_details", 
+                "engine:user_game_details",
                 kwargs={
-                    "pk": self.object.pk, 
+                    "pk": self.object.pk,
                     "player_name": self.request.POST.get("player_name")
                 }
             )

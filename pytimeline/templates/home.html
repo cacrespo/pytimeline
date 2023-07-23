@@ -2,9 +2,12 @@
 {% load static %}
 
 {% block content %}
-
-  <img src="{% static 'img/logo.png' %}" alt="Logo" >
-  <button name="button_sp" type="submit" onclick="location.href=''"> Single Player </button>  
-  <button name="button_mp" type="submit" onclick="location.href=''"> Multiplayer </button>  
-    
+    <div class="container">
+        <h2>Main Menu</h2>
+        <div class="buttons">
+            <a href="#" class="single-player">Single Player</a>
+            <a href="#" class="multiplayer">Multiplayer</a>
+            <a href="#" class="about">About</a>
+        </div>
+    </div>
 {% endblock %}

@@ -24,6 +24,7 @@ Ingresa al entorno virtual y ejecuta:
 
 ## Diagrama general de la aplicación
 
+```
 pytimeline/ 
     |-- pytimeline/
         |-- pytimeline/
@@ -34,6 +35,7 @@ pytimeline/
         |-- singleplayer/
         |-- multiplayer/
     |-- docs/
+```
 
 | File or Directory | Purpose |
 | --- | --- |

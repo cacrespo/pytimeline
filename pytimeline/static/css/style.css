@@ -24,14 +24,15 @@ body {
 
 h1 {
     font-size: 3rem;
-    margin-bottom: 1rem;
-    color: #33a1de; /* Blue color */
+    margin-bottom: 0.1rem;
+    color: #34a1de; /* Blue color */
+    text-align: center;
 }
 
 h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #23a1de;
-    margin-top: 0.1rem;
+    margin: 0 0 1rem;
 }
 
 .buttons {
@@ -58,3 +59,7 @@ a:hover {
     transform: scale(1.1); /* Scale up the button on hover */
 }
 
+footer {
+    color: white;
+    margin: 1.5rem;
+}

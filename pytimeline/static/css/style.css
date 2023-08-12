@@ -1,10 +1,20 @@
 /* style.css */
 
+:root {
+    /* Color Palette */
+    --color1: #005585;
+    --color2: #64b3d7;
+    --color3: #8fadee;
+    --color4: #8d77ab;
+    --color5: #6b5685;
+    --color6: #ebeaf8;
+}
+
 body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif; /* Added the custom font 'Roboto' */
-    background: #005585;
+    background: var(--color1);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -15,7 +25,7 @@ body {
 .container {
     max-width: 600px; /* Adjust the maximum width as per your preference */
     background-color: #fff; /* White background for the container */
-    border: 5px solid #33a1de; /* Blue border color */
+    border: 5px solid var(--color2); /* Blue border color */
     border-radius: 10px; /* Rounded border corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
     padding: 20px; /* Added padding to create space between the border and content */
@@ -25,13 +35,13 @@ body {
 h1 {
     font-size: 3rem;
     margin-bottom: 0.1rem;
-    color: #34a1de; /* Blue color */
+    color: var(--color2); /* Blue color */
     text-align: center;
 }
 
 h2 {
     font-size: 1.5rem;
-    color: #23a1de;
+    color: var(--color2);
     margin: 0 0 1rem;
 }
 
@@ -45,7 +55,7 @@ a {
     display: inline-block;
     padding: 12px 20px; /* Added padding around the text in buttons */
     border-radius: 4px;
-    background-color: #8d77ab; /* Purple color */
+    background-color: var(--color4); /* Purple color */
     color: #fff;
     text-decoration: none;
     font-size: 1.2rem;
@@ -55,7 +65,7 @@ a {
 }
 
 a:hover {
-    background-color: #6b5685; /* Darker purple color on hover */
+    background-color: var(--color5); /* Darker purple color on hover */
     transform: scale(1.1); /* Scale up the button on hover */
 }
 

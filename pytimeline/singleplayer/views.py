@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+from . import urls
 
 def index(request):
-    return HttpResponse("Single Player Page!")
+    return render(request, "singleplayer/singleplayer.html")

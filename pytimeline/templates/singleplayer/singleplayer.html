@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h2>Single Player Game</h2>
+        <div class="box">
+            Tenés 20 segundos para ordenar cronologicamente {{game_size}} sucesos
+            históricos. </br>
+
+            Una vez que se acabe el tiempo, si hay algún error vas a disponer de 
+            5 segundos más para hacer alguna corrección. </br>
+
+            ¡Cada día una serie nueva de eventos para jugar! </br>
+
+        </div>
+        
+        <div class="buttons">
+            <a href="start_game"> Empezar! </a>
+        </div>
+
+    </div>
+{% endblock %}

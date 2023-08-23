@@ -23,13 +23,13 @@ body {
 }
 
 .container {
-    max-width: 600px; /* Adjust the maximum width as per your preference */
-    background-color: #fff; /* White background for the container */
-    border: 5px solid var(--color2); /* Blue border color */
-    border-radius: 10px; /* Rounded border corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
-    padding: 20px; /* Added padding to create space between the border and content */
-    text-align: center; /* Center the content inside the container */
+    max-width: 200px;
+    background-color: #fff;
+    border: 5px solid var(--color2);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
 }
 
 h1 {
@@ -51,22 +51,28 @@ h2 {
     gap: 1rem;
 }
 
+.box {
+    margin: 10px;
+    padding: 10px;
+    overflow-wrap: break-word;
+}
+
 a {
     display: inline-block;
-    padding: 12px 20px; /* Added padding around the text in buttons */
+    padding: 12px; 
     border-radius: 4px;
-    background-color: var(--color4); /* Purple color */
+    background-color: var(--color4);
     color: #fff;
     text-decoration: none;
     font-size: 1.2rem;
-    font-weight: 500; /* Added font weight for better readability */
-    font-family: 'Roboto', sans-serif; /* Use the custom font 'Roboto' */
-    transition: background-color 0.3s, transform 0.2s ease-in-out; /* Added a transition effect */
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
 }
 
 a:hover {
-    background-color: var(--color5); /* Darker purple color on hover */
-    transform: scale(1.1); /* Scale up the button on hover */
+    background-color: var(--color5);
+    transform: scale(1.1);
 }
 
 footer {

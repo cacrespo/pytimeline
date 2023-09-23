@@ -22,7 +22,7 @@ body {
 }
 
 header {
-    margin: 5%;
+    max-width: 70%;
 }
 
 .container {
@@ -41,7 +41,6 @@ h1 {
     margin-bottom: 5%;
     color: var(--color2); /* Blue color */
     text-align: center;
-    max-width: 70%;
 }
 
 h2 {

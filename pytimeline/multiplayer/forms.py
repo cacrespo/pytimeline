@@ -1,6 +1,6 @@
 from django import forms
 
-from engine.models import Game
+from multiplayer.models import Game
 
 class NewGameForm(forms.ModelForm):
     class Meta:

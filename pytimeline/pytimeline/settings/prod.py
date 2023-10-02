@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'engine',
     'django_extensions',
     'singleplayer',
+    'multiplayer',
 ]
 
 MIDDLEWARE = [

@@ -18,7 +18,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('singleplayer/', include(('singleplayer.urls'))),
-    path('multiplayer/', include(('engine.urls', 'engine'))),
+    path('multiplayer/', include(('multiplayer.urls'))),
     path('', include(('pages.urls'))),
     path('admin/', admin.site.urls),
 ]

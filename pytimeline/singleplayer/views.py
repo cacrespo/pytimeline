@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from . import urls
+from singleplayer.models import SinglePlayerGame
 
 def index(request):
-    return render(request, "singleplayer/singleplayer.html")
+    game = SinglePlayerGame()
+    return render(request, "singleplayer/singleplayer.html", {'game': game})

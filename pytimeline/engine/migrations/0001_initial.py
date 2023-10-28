@@ -36,16 +36,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('cards', models.ManyToManyField(to='engine.card')),
             ],
-        ),
-        migrations.CreateModel(
-            name='Player',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=64)),
-                ('cards', models.ManyToManyField(to='engine.card')),
-                ('game', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='players', to='engine.game')),
-            ],
-        ),
+       ),
         migrations.AddField(
             model_name='game',
             name='timeline',

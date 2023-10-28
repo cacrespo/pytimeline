@@ -5,13 +5,12 @@ class Timeline(models.Model):
 	pass
 
 class Card(models.Model):
-	pass
+    date = models.DateTimeField("fecha evento")
+    text = models.CharField(max_length=500)
 
 class Game(models.Model):
     title = models.CharField(max_length=256)
     deck = models.ManyToManyField("Card")
-    turn = models.PositiveIntegerField(default=0)
-    n_players = models.PositiveSmallIntegerField(default=3)
     timeline = models.OneToOneField(
         Timeline,
         related_name="game",

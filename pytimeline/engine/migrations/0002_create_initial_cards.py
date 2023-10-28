@@ -25,5 +25,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(create_initial_cards, delete_all_cards),
+        migrations.RunPython(create_initial_cards),
     ]

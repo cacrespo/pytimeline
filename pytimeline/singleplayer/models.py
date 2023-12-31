@@ -12,3 +12,10 @@ class SinglePlayerGame(Game):
         self.initialize_deck()
         self.initialize_timeline()
         self.save()
+
+    def initialize_deck(self, deck_size = DEFAULT_DECK_SIZE):
+        """Select some cards from the main deck."""
+
+    def initialize_timeline(self):
+        """Create the timeline and show the first card."""
+        pass

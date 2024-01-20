@@ -2,16 +2,7 @@ from django.test import TestCase
 from django.db.models import Q
 
 from .models import Game, Card
-
-def create_game(title, n_cards):
-    """
-    Create a game with the given random number of cards and a specific title.
-    """
-    game = Game(title=title)
-    game.deck_random_make(n_cards=20)
-
-    return game
-
+from .utils import create_game
 
 
 class CardModelTests(TestCase):
@@ -29,6 +20,6 @@ class GameModelTests(TestCase):
         General game with different deck size or title.
         """
 
-        test_game = create_game("Test Game", n_cards=20)
+        test_game = create_game("Test Game", 20)
         self.assertEqual(test_game.deck.count(), 20)
         self.assertEqual(test_game.title, "Test Game")

@@ -19,10 +19,10 @@ def delete_all_cards(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('engine', '0001_initial'),
-    ]
+     dependencies = [
+         ('engine', '0001_initial'),
+     ]
 
-    operations = [
-        migrations.RunPython(create_initial_cards),
-    ]
+     operations = [
+         migrations.RunPython(create_initial_cards),
+     ]

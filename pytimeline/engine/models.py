@@ -1,8 +1,8 @@
 from django.db import models
 
 
-#class Timeline(models.Model):
-#	pass
+class Timeline(models.Model):
+	cards = models.ManyToManyField("Card")
 
 class Card(models.Model):
     date = models.DateTimeField("fecha evento")
@@ -13,9 +13,9 @@ class Game(models.Model):
     title = models.CharField(max_length=256)
     deck = models.ManyToManyField("Card")
 
-#    timeline = models.OneToOneField(
-#        Timeline,
-#        related_name="game",
-#        on_delete=models.CASCADE,
-#        null=True,
-#    )
+    timeline = models.OneToOneField(
+        Timeline,
+        related_name="game",
+        on_delete=models.CASCADE,
+        null=True,
+    )

@@ -1,21 +1,20 @@
 from django.db import models
-from engine.models import Card, Game
+from engine.models import Card, Game, Timeline
+
 
 DEFAULT_DECK_SIZE = 5
-DEFAULT_HAND_SIZE = DEFAULT_DECK_SIZE
 
 class SinglePlayerGame(Game):
-    n_players = 1
+    # Add additional fields specific to SinglePlayerGame
+    deck_size = models.PositiveIntegerField(default=DEFAULT_DECK_SIZE)
 
-    def start(self):
-        """Inicialize a new single player game."""
-        self.initialize_deck()
-        self.initialize_timeline()
-        self.save()
-
-    def initialize_deck(self, deck_size = DEFAULT_DECK_SIZE):
-        """Select some cards from the main deck."""
+    def save(self, *args, **kwargs):
+    # Set the default title for SinglePlayerGame
+        self.title = "Single Player Game"
+        super().save(*args, **kwargs)
 
     def initialize_timeline(self):
-        """Create the timeline and show the first card."""
-        pass
+        cards = Card.objects.order_by("?")[:self.deck_size]
+        self.timeline = Timeline.objects.create(game=self)
+        self.timeline.cards.set(cards)
+        self.save()

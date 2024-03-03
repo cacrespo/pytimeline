@@ -11,17 +11,7 @@
         </div>
         
         <div class="buttons">
-            <a href="start_game"> ¡Empezar! </a>
+            <a href="play"> ¡Empezar! </a>
         </div>
-
-        <h2>Tu mano:</h2>
-        <div>
-            {% for card in game.timeline.cards.values %}
-            </br>
-            {{card.date.year}} {{card.id}} {{card.text}}
-            </br>
-            {% endfor %}
-        </div>
-
     </div>
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h2>Single Player Game</h2>
+        <h2>Tu mano:</h2>
+        <div>
+            {% for card in game.timeline.cards.values %}
+            </br>
+            {{card.date.year}} {{card.id}} {{card.text}}
+            </br>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -4,13 +4,19 @@
 {% block content %}
     <div class="container">
         <h2>Single Player Game</h2>
-        <h2>Tu mano:</h2>
-        <div>
-            {% for card in game.timeline.cards.values %}
-            </br>
-            {{card.date.year}} {{card.id}} {{card.text}}
-            </br>
+        <div class="game-container">
+            <div class="timeline">
+                {% for card in game.timeline.cards.values %}
+                <div class="timeline-cards">
+                <h5 class="card-title">
+                    {{ card.date.year }}
+                </h5>
+                <div class="card-text"; style="overflow-y:auto;">
+                    {{ card.text }}
+                </div>
+            </div>
             {% endfor %}
         </div>
     </div>
+</div>
 {% endblock %}

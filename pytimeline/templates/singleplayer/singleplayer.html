@@ -6,20 +6,12 @@
         <h2>Single Player Game</h2>
         <div class="box">
             👉 Tenés <strong>20 segundos para ordenar cronologicamente</strong>
-            {{game_size}} sucesos históricos. </br>
-
-            👉 Una vez que se acabe el tiempo, si hay algún error vas a disponer de 
-            <strong>5 segundos más para hacer alguna corrección.</strong></br>
-
+            {{game.deck_size}} sucesos históricos. </br>
             </br>🫶  ¡Cada día una serie nueva de eventos para jugar! </br>
         </div>
         
         <div class="buttons">
-            <a href="start_game"> ¡Empezar! </a>
+            <a href="play"> ¡Empezar! </a>
         </div>
-
-        <h2>Tu mano</h2>
-        <div> hola mundo! {{game.n_players}} </div>
-
     </div>
 {% endblock %}

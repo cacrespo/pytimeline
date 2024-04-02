@@ -3,7 +3,7 @@
 .game-container {
   overflow: hidden;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 8px;
   font-size: 14px;
   width: 600px;
@@ -27,5 +27,9 @@
   flex-direction: column;
   gap: 8px;
   max-width: 100vw;
-  overflow-y: auto;
+  overflow-y: auto; 
+}
+
+.timeline-cards:hover {
+  background-color: #f0f0f0;
 }

@@ -21,4 +21,11 @@ def play(request):
 
     return render(request, "singleplayer/singleplayer_play.html", {'game': game})
 
+def end(request):
+    if request.method == 'POST':
+        order_sent = request.POST.get('order')
+    else:
+        order_sent = [1,2,3]
+    return render(request, "singleplayer/singleplayer_end.html", {'order': order_sent})
+
 

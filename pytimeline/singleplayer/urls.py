@@ -6,4 +6,5 @@ app_name = "singleplayer"
 urlpatterns = [
     path("", views.index, name="singleplayer"),
     path("play", views.play, name="singleplayer_play"),
+    path("end", views.end, name="singleplayer_end"),
 ]

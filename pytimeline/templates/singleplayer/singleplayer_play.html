@@ -20,7 +20,18 @@
     </div>
 </div>
 
-<div id="order"></div>
-<script src="{% static 'js/drag_drop.js' %}"></script>
+<div id="order">
+    <script src="{% static 'js/drag_drop.js' %}"></script>
+</div>
+<script>
+document.getElementById("order").value = document.getElementById("order").innerHTML;
+</script>
+
+
+<form action="{% url 'singleplayer:singleplayer_end' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="order" id="order">
+    <button type="submit">Submit!</button>
+</form>
 
 {% endblock %}

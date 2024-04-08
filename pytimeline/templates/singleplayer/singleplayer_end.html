@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<script>
+var local_order = localStorage.getItem("order_received");
+</script>
+ 
+    <div class="container">
+        <h2>Single Player Game</h2>
+        <div class="box">
+            Results!
+            <span id="results"> </span>
+               <span id="values"></span></h1>
+               </br>
+        </div>
+<script>
+document.getElementById("values").innerHTML = local_order;
+</script>
+ 
+{% endblock %}
+
+

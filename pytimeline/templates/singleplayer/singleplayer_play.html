@@ -24,16 +24,16 @@
     <script src="{% static 'js/drag_drop.js' %}"></script>
 </div>
 
-<form onsubmit="order_to_local()" action="{% url 'singleplayer:singleplayer_end' %}" method="post">
+<form onsubmit="send_order()" action="{% url 'singleplayer:singleplayer_end' %}" method="post">
     {% csrf_token %}
-    <input type="hidden" name="hidden_input" id="order_input">
+    <input type="hidden" name="answer" id="answer_sent"> 
     <button type="submit">Submit!</button>
 </form>
 
 <script>
-    function order_to_local() {
-    // Store the value in local storage
-    localStorage.setItem("order_received", order);
+    function send_order() {
+    // Complete values into the form
+        document.getElementById("answer_sent").value = order;
     }
 </script>
 

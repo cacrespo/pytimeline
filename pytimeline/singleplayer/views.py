@@ -23,9 +23,6 @@ def play(request):
 
 def end(request):
     if request.method == 'POST':
-        order_sent = request.POST.get('order')
-    else:
-        order_sent = [1,2,3]
-    return render(request, "singleplayer/singleplayer_end.html", {'order': order_sent})
-
-
+        answer = request.POST.get('answer')
+        answer = answer.split(",")
+    return render(request, "singleplayer/singleplayer_end.html", {'answer': answer})

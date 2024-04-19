@@ -4,14 +4,22 @@
 {% block content %}
 
     <div class="container">
-        <h2>Single Player Game</h2>
+        <h2>Results!</h2>
         <div class="box">
-            Results!
-            {% for i in answer %}
-            </br> <span>{{i}}</span>
+            {% for result in results %}
+                {% if result.1 == result.0.id %}
+                <div class="correct_order">
+                    {{ result.0.date|date:"Y" }} <br>
+                    {{ result.0.text }}
+                </div>
+                {% else %}
+                <div class="incorrect_order">
+                    {{ result.0.date|date:"Y"}} <br>
+                    {{ result.0.text }}
+                </div>
+                {% endif %}
+
             {% endfor %}  
         </div>
-
+    </div>
 {% endblock %}
-
-

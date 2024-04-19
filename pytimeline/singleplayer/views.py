@@ -2,6 +2,7 @@ from django.contrib.sessions.models import Session
 from django.shortcuts import render
 from . import urls
 from singleplayer.models import SinglePlayerGame
+from engine.models import Card
 
 def index(request):
    return render(request, "singleplayer/singleplayer.html")
@@ -23,6 +24,8 @@ def play(request):
 
 def end(request):
     if request.method == 'POST':
-        answer = request.POST.get('answer')
-        answer = answer.split(",")
-    return render(request, "singleplayer/singleplayer_end.html", {'answer': answer})
+        answers = request.POST.get('answer').split(",")
+        answers = list(map(int, answers))
+        cards = Card.objects.filter(id__in=answers).order_by('date')
+        results = zip(cards, answers)
+    return render(request, "singleplayer/singleplayer_end.html", {'results': results })

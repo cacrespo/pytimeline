@@ -6,7 +6,7 @@
   grid-template-columns: repeat(1, 1fr);
   gap: 8px;
   font-size: 14px;
-  width: 600px;
+  width: 100%;
   padding: 8px;
   background-position: center;
   background-repeat: no-repeat;
@@ -28,8 +28,17 @@
   gap: 8px;
   max-width: 100vw;
   overflow-y: auto; 
+  display: inline;
+  &:not(.disable):hover {
+  background-color: #f0f0f0;
+  }
 }
 
-.timeline-cards:hover {
-  background-color: #f0f0f0;
+.correct_order {
+  background-color: var(--color3);
+}
+
+.incorrect_order {
+  color: #ffffff;
+  background-color: #790909;
 }

@@ -8,11 +8,10 @@ Juego inspirado en Timeline con efemérides de Argentina.
 > ¿No sabés qué es un PyCamp? [Acá](docs/PYCAMP.md) hay más información 😉)
 
 Nuestra intención es ofrecer un espacio lúdico que ayude a las personas a 
-despertar la curiosidad e interesarse por adquirir nuevos conocimientos.
+despertar curiosidad e interes por ~adquirir nuevos conocimientos~ cosas.
 
 Por el momento vamos a conmemorar aniversarios y eventos interesantes ligados 
-a la historia argentina. Tal vez en un futuro podamos abordar otros tópicos y 
-otras geografías.
+a la historia argentina. Tal vez en un futuro podamos abordar otros tópicos.
 
 ## Dinámica de juego
 

@@ -8,17 +8,12 @@
             <div class="timeline">
                 {% for card in game.timeline.cards.values %}
                 <div class="timeline-cards" data-index="{{card.id}}" draggable="true">
-                <h5 class="card-title">
-                    ????
-                </h5>
-                <div class="card-text"; style="overflow-y:auto;">
-                    {{ card.text }}
+                    <strong> ???? </strong> | {{ card.text }}
                 </div>
-            </div>
             {% endfor %}
+            </div>
         </div>
     </div>
-</div>
 
 <div id="order">
     <script src="{% static 'js/drag_drop.js' %}"></script>

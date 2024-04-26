@@ -26,6 +26,7 @@ def end(request):
     if request.method == 'POST':
         answers = request.POST.get('answer').split(",")
         answers = list(map(int, answers))
-        cards = Card.objects.filter(id__in=answers).order_by('date')
-        results = zip(cards, answers)
+        cards = Card.objects.filter(id__in=answers)
+        ordered_answers = [card.id for card in cards.order_by('date')]
+        results = zip(cards, ordered_answers)
     return render(request, "singleplayer/singleplayer_end.html", {'results': results })

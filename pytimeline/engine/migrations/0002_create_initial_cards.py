@@ -5,11 +5,11 @@ from django.db import migrations
 
 def create_initial_cards(apps, schema_editor):
     Card = apps.get_model("engine", "Card")
-    with open('engine/data/efemerides_arg.pkl', 'rb') as f:
+    with open('pytimeline/engine/data/efemerides_arg.pkl', 'rb') as f:
         data = pickle.load(f)
 
         for _, (y, t) in data.items():
-            Card.objects.create(date=date(int(y), 1, 1), text=t)
+            Card.objects.create(date=y, text=t)
 
 def delete_all_cards(apps, schema_editor):
     Card = apps.get_model("engine", "Card")

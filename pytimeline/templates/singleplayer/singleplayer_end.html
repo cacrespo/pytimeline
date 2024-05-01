@@ -10,11 +10,11 @@
             {% for result in results %}
                 {% if result.1 == result.0.id %}
                 <div class="timeline-cards disable correct_order">
-                    <strong>{{ result.0.date|date:"Y" }}</strong> | {{ result.0.text }}
+                    <strong>{{ result.0.date|date:"d-M-Y"}}</strong> | {{ result.0.text }}
                 </div>
                 {% else %}
                 <div class="timeline-cards disable incorrect_order">
-                    {{ result.0.date|date:"Y"}} | {{ result.0.text }}
+                    {{ result.0.date|date:"d-M-Y"}} | {{ result.0.text }}
                 </div>
                 {% endif %}
 

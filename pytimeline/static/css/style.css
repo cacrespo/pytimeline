@@ -26,7 +26,7 @@ header {
 }
 
 .container {
-    max-width: 70%;
+    max-width: 50%;
     min-width: 20%;
     background-color: #fff;
     border: 5px solid var(--color2);
